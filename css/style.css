@@ -541,6 +541,10 @@ section#skills {
 
 }
 
+section#projects {
+	background-color: #C9C5B8;
+}
+
 section#projects .project {
 	width:102%;
 	height: 102%;
