@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-    <title>1-2-Chair</title>
+    <title>coordinating flows with protocols</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="/css/reset.css" media="screen" />
@@ -17,34 +17,53 @@
 <body>
 	<a href="/index.html" class="inactiveLink"><img src="/images/logo.png" id="logoProjectPage"></a>
 	<section>
-  	<div id="header-image" style="background-image: url('/images/12chair/main.jpg')" ></div>
+  	<div id="header-image" style="background-image: url('/images/coordinators/main.jpg')" ></div>
   	<div class ="content projectPost">
-  		<h1 class="postTitle" style="margin-bottom:0.1rem;">1-2-Chair</h1>
-  		<h4 class="postDescription" style="text-align: center; margin-top:0; margin-bottom: 2.5rem;"> 1 design, 2 chairs.</h4>
+  		<h1 class="postTitle" style="margin-bottom:0.1rem;">coordinating flows with protocols</h1>
+  		<h4 class="postDescription" style="text-align: center; margin-top:0; margin-bottom: 2.5rem;"> A way to provide structure to your code.</h4>
   		
   			<div class="keywords">
-			<h4 class="rowTitle">Keywords:</h4><p class="keyword">Architecture</p><p class="keyword">House of the Future</p><p class="keyword">Furniture design</p>
+			<h4 class="rowTitle">Keywords:</h4><p class="keyword">App development</p><p class="keyword">iOS</p><p class="keyword">Swift</p><p class="keyword">Software architecture</p>
     		</div>
     		<div style="clear:both"></div>
 
     	
     	
 
-    	<h3 id="design-concept">Design concept</h3>
-<p>The 1-2-Chair is a playful answer to the problems of a small living space. It is a chair that is suitable for the dining room table, that can also be transformed into a lounge chair. Taking the chair apart to assemble it into its counter configuration is not only easy to do, but also fun. It is an original statement piece for the creative and sustainable person.</p>
+    		<h4 class="rowTitle">Commissioned by: </h4><p class="keyword">Noodlewerk</p>
+    		<div style="clear:both"></div>
+    	
 
-<h3 id="aim-of-the-assignment">Aim of the assignment</h3>
-<p>This design was created as the end result for the <strong>‘House of the Future’</strong> minor at the Faculty of Architecture at Delft University of Technology. The minor was targeted at the study of spatial and formal concepts of dwelling design in the context of changing cultural, societal, ecological and technological conditions. The emphasis lied on conducting free form studies in order to find desirable combinations of aesthetics and ergonomics. Students were encouraged to apply and further develop their own personal style through creating mock-ups and models.</p>
+    	<h3 id="concept">Concept</h3>
 
-<h3 id="how-it-works">How it works</h3>
+<blockquote>
+  <p>A new and refreshing look on app-architecture for apps in Swift (and Xcode) from the perspective of a UX-designer.</p>
+</blockquote>
 
-<p><img class="small" src="/images/12chair/drawing.png" /></p>
+<p>On the one hand it supports user flows which require users to go through several views to reach their goal. And on the other hand it combines modularity and reusability with the practicality of storyboards in Xcode.</p>
 
-<p>The 1-2-Chair is made from only four parts which are milled from one sheet of multiplex. By removing the two cotter pins in the back the chair can easily be transformed from a dining chair to the a lounge chair and vice versa. Because the chair is made out of four flat pieces of wood it is also easy to store and transport the chair once it is deconstructed.</p>
+<p>Additionally, this way of structuring your code also allows you to communicate more effectively with the various types of members of a scrum-team, including the less technical members (because of the visual advantages of using storyboards), while at the same time preventing merge conflicts in Git when team members work on different features simultaneously.</p>
 
-<p><img class="small" src="/images/12chair/deconstructed.jpg" /></p>
+<h3 id="how-this-project-came-about">How this project came about</h3>
 
-<p>A funny detail: the letters in the back are not only an eyecatcher, they serve a constructional purpose as well. The ‘H’ supports the seat of the chair and the dashes in between the text are the cotter pins.</p>
+<p>This is the type of project that originated from a couple of completely unrelated things coming together. During my time at Noodlewerk, next to designing apps, I was also building them. Not having much experience developing native apps for iOS, I was trying to learn as much as possible about fulfilling the role of an iOS-developer. So I was not only learning a lot about Swift, but also about workflows, including Git and working together with others in an Agile way.</p>
+
+<p>At that time I was working on <a href="/projects/feedMe/">Feed Me</a> and I was right at the point that I needed to think about sustainable architecture for the app. I happened to be reading ‘Get Agile!’ by Pieter Jongerius et al (of Fabrique), and I came across <a href="https://www.youtube.com/watch?v=j6bb6nU1RVw">this talk</a> from Niels van Hoorn about <a href="https://github.com/nvh/Coordinating-presentation">Protocol Oriented Coordinators</a> which was all about a way to provide structure in the code of a single view. It was the combination of these three things that made me come up with <strong>coordinating flows with protocols</strong>.</p>
+
+<h3 id="why-feed-me-needed-different-architecture">Why Feed Me needed different architecture</h3>
+
+<p>The reason behind the need for custom-made architecture can be traced back to the interaction qualities from the UX-vision; Feed Me needed to be guiding and have as little friction as possible.</p>
+
+<p><img class="big" src="/images/coordinators/create-child-flow.png" /></p>
+
+<p>For example, this resulted in the flow for child profile creation being divided into multiple views with only one question per view (as shown in the image above), making the cognitive load as low as possible. From a usability perspective this was the right way to go, but from a technical point of view it made things a bit more complex than preferred; with this strategy doing one thing (creating a profile for a child) has been divided over multiple views with multiple view controllers and, if I had used Niels’ Protocol Oriented Coordinators, multiple coordinators.</p>
+
+<h3 id="my-solution">My solution</h3>
+
+<p>Instead of having one coordinator for each view, I devised a way to have <em>one coordinator for one user flow</em>, even when that flow has multiple views. By doing so, hierachically the different elements are related as shown in the scheme below. This also required me to create a lifecycle for such a coordinator with multiple options for the start and end of the lifecycle. If you are interested, I have distilled the logic of the coordinators into a <a href="https://github.com/frankvanboheemen/Coordinating-flows-with-protocols">separate Xcode-project</a>.</p>
+
+<p><img class="small" src="/images/coordinators/coordinator-explained.png" /></p>
+
 
   	</div>
   </section>
