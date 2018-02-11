@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>200th anniversary of the Dutch government</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+	<link href='https://fonts.googleapis.com/css?family=Raleway:400,100,200italic,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="../css/style.css" media="screen" />
+	<script type="text/javascript" src="../js/jquery.nav.js"></script>
+</head>
+<body>
+	<div id="super-container">
+		<a href="/index.html" class="inactiveLink"><img src="/images/logo.png" id="logoProjectPage"></a>
+		<div id="header-image" style="background-image: url('/images/staten-generaal/main.jpg')" ></div>
+		<div class="container project-container">
+			<div class ="project-summary">
+				<div class = "row">
+					<div class = "col">
+						<h1 class="post-title">200th anniversary of the Dutch government</h1>
+						<div class ="row justify-content-md-center">
+							<div class="col-md-10">
+						<p class="post-summary"></p>
+					</div>
+					</div>
+					</div>
+				</div>
+				<div class ="keywords-container">
+					
+					<div class="row keyword-row">
+						<div class="col">
+							<div class ="row">
+								<div class="col-md-2">
+									<h6 class="keyword-title">Keywords:</h6>
+								</div>
+								<div class="col-md-10">
+									<p class="keyword">Interactive exhibition</p><p class="keyword">UI/UX design</p><p class="keyword">App design</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					
+					
+
+					<div class="row keyword-row">
+						<div class="col">
+							<div class="row">
+								<div class="col-md-2">
+									<h6 class="keyword-title">Commissioned by: </h6>
+								</div>
+								<div class="col-md-10">
+									<p class="keyword">Noodlewerk</p><p class="keyword">Staten Generaal</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+
+			<div class="project-post">
+				<h3 id="design">Design</h3>
+
+<p>With this project I, as an employee of <a href="http://www.noodlewerk.com">Noodlewerk Apps</a>, designed and built part of an interactive exhibition for the 200th anniversary of the Dutch government. This exhibition consisted of a collection of information displays. Three of these displays were equipped with a screen and allowed visitors to access digital content about the Dutch government by using an iPad, which was embedded into these displays. The design and development of the apps running on these iPads was the contribution that Noodlewerk Apps made to this project.</p>
+
+<p>I personally worked on the <strong>user interface (UI) and user experience (UX) of the interactive pillars</strong>.</p>
+
+<h3 id="how-this-project-came-about">How this project came about</h3>
+
+<p>To celebrate their anniversary, the Dutch Government wanted to set up an interactive exhibition in and around the House of Representatives, along with an accompanying mobile application, to invite visitors to learn about the rich history of the Dutch Parliament. They asked several small companies from The Hague to realise this. Therefore, a collaboration was formed between the following companies; <strong>LetterZDesign</strong> (execution), <strong>Studio Duel</strong> (graphic design), <strong>Two Kings</strong> (website &amp; mobile apps), <strong>Uberdutch</strong> (concept &amp; design) and Noodlewerk Apps (interactive exhibition).</p>
+
+<p><img class="big" src="/images/staten-generaal/overzicht.jpg" /></p>
+
+<h3 id="challenges-of-this-project">Challenges of this project</h3>
+
+<p>For the interactive exhibition two different apps were required:</p>
+
+<ul>
+  <li>The first app (the members-app) allowed visitors to see an overview of the current occupation of the House of Representatives and go into detail of specific members on the external screen.</li>
+  <li>The second app (the video-app) allowed visitors to play videos on an external screen.</li>
+</ul>
+
+<p>Because the apps were part of an exhibition, the time somebody spends interacting with the apps might vary from a couple of minutes to a few seconds. Therefore both the structure as well as the purpose of every UI element of the apps should be clear immediately. At the same time I could not use too many standard iOS UI Elements, because the UI of the apps should complement the graphical design of the rest of the exhibition.</p>
+
+<h3 id="process">Process</h3>
+
+<h5 id="wireframing">Wireframing</h5>
+
+<p>The first step was to create a wireframe for both apps. The first app, the members-app, allowed visitors to choose a Member of Parliament to display on the external screen by tapping their portrait. At the same time, they should be able to filter members by their political party and to search for an individual member by typing in his/her name.</p>
+
+<p>Therefore I decided that the main view should have a grid of portraits. For both applying a filter and searching a specific member a different view is overlayed on top of the main view.</p>
+
+<p><img class="small" src="/images/staten-generaal/wireframe-01.png" /></p>
+
+<p>The second app, the video-app, was the simplest. The wireframe consisted of only two views: one main view (for when there is no video playing on the external screen) and a secondary view (for when there is a video playing).</p>
+
+<p><img class="small" src="/images/staten-generaal/wireframe-02.png" /></p>
+
+<p>The main view should contain several buttons to allow the visitor to choose which video to play, while the secondary view should only contain a small amount of information about the video that is playing and a ‘stop’-button.</p>
+
+<h5 id="graphical-design">Graphical design</h5>
+
+<p>The style for all the graphical displays of the exhibition was predetermined by Studio Duel. After analysing finished work, I tried to apply the same graphical elements and typography to the UI of the apps to make them fit the information displays.</p>
+
+<p><img class="small" src="/images/staten-generaal/graphical-01.png" style="margin-bottom:20px" />
+<img class="small" src="/images/staten-generaal/graphical-02.png" style="margin-top:20px" /></p>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>This was the first time I worked on a project together with people from other companies with different disciplines. I really liked the dynamics of everyone contributing in their own way to accomplish one common goal.</p>
+
+<p>Next to that it was quite cool for me, as a starting designer, to have something I have worked on be on display for 6 months to celebrate the political history of my country.</p>
+
+
+			</div>
+		</div>
+	</div>
+	<section id="projects" class="projectSection">
+
+		
+		<article class="single-project-small">
+			<a href="/projects/feed-me" class="project" style="background-image: url('/images/feed-me/main.jpg')">
+				<div class="project-overlay ">
+					<h4 class="project-title">Feed Me</h4>
+					<h6 class="project-description">Tracking nutrition, sleep, diapers and medicine use of your newborn.</h6>
+				</div>
+			</a>
+
+		</article>
+		
+		<article class="single-project-small">
+			<a href="/projects/headphones" class="project" style="background-image: url('/images/headphones/main.jpg')">
+				<div class="project-overlay ">
+					<h4 class="project-title">3D printed headphones</h4>
+					<h6 class="project-description">a new embodiment for salvaged electronics.</h6>
+				</div>
+			</a>
+
+		</article>
+		
+		<article class="single-project-small">
+			<a href="/projects/diem" class="project" style="background-image: url('/images/diem/main.jpg')">
+				<div class="project-overlay ">
+					<h4 class="project-title">Diem</h4>
+					<h6 class="project-description">A smart house that cares for you.</h6>
+				</div>
+			</a>
+
+		</article>
+		
+		<article class="single-project-small">
+			<a href="/projects/staten-generaal" class="project" style="background-image: url('/images/staten-generaal/main.jpg')">
+				<div class="project-overlay ">
+					<h4 class="project-title">200th anniversary of the Dutch government</h4>
+					<h6 class="project-description">Applications for iPads in an interactive exposition.</h6>
+				</div>
+			</a>
+
+		</article>
+		
+		<article class="single-project-small">
+			<a href="/projects/snapture" class="project" style="background-image: url('/images/snapture/main.jpg')">
+				<div class="project-overlay ">
+					<h4 class="project-title">Snapture!</h4>
+					<h6 class="project-description">Making digital data tangible.</h6>
+				</div>
+			</a>
+
+		</article>
+		
+		<article class="single-project-small">
+			<a href="/projects/from-hats-to-heels" class="project" style="background-image: url('/images/from-hats-to-heels/main.jpg')">
+				<div class="project-overlay ">
+					<h4 class="project-title">From Hats To Heels</h4>
+					<h6 class="project-description">Personal branding by creating a website</h6>
+				</div>
+			</a>
+
+		</article>
+		
+		<article class="single-project-small">
+			<a href="/projects/gloombot" class="project" style="background-image: url('/images/gloombot/main.jpg')">
+				<div class="project-overlay ">
+					<h4 class="project-title">Gloombot</h4>
+					<h6 class="project-description">A robot that is just gloomy, nothing more...</h6>
+				</div>
+			</a>
+
+		</article>
+		
+		<article class="single-project-small">
+			<a href="/projects/ode-to-dieter" class="project" style="background-image: url('/images/ode-to-dieter/main.jpg')">
+				<div class="project-overlay ">
+					<h4 class="project-title">Ode to Dieter Rams</h4>
+					<h6 class="project-description">a DIY Bluetooth speaker.</h6>
+				</div>
+			</a>
+
+		</article>
+		
+		<article class="single-project-small">
+			<a href="/projects/12chair" class="project" style="background-image: url('/images/12chair/main.jpg')">
+				<div class="project-overlay ">
+					<h4 class="project-title">1-2-Chair</h4>
+					<h6 class="project-description">1 design, 2 chairs.</h6>
+				</div>
+			</a>
+
+		</article>
+		
+	</section>
+	<footer class="site-footer" id="contact">
+	<div class = "container">
+		<div class = "row justify-content-md-center">
+			<div class = "col-md-6">
+				<h2>Feel free to say hi!</h2>
+				<p>
+					Feel free to send me a message by clicking on the big button below. I'm always open to chatting about my projects or design, prototyping and 3D printing in general.
+				</p>
+				<a href="mailto:frankvb@gmail.com" id="emailbutton">Mail me</a>
+			</div>
+		</div>
+	</div>
+</footer>
+</div>
+</body>
+<script> 
+	var ratio = 0.6;  // Used for aspect ratio
+
+	function Resizing() {
+		var totalWidth = 0;
+		var totalProjects = 0;
+		$('.single-project-small').each(function() {
+			totalWidth = totalWidth + $(this).width();
+			totalProjects = totalProjects + 1;
+		});
+
+		var meanWidth = totalWidth/ totalProjects;
+
+		var amountOfRows = Math.ceil(totalProjects / 3)
+
+
+
+		$('.single-project-small').each(function() {
+			var width = meanWidth;
+
+			var preferredHeight = Math.floor(width * ratio)
+			$(this).css("height", preferredHeight +"px");   // Set new height
+		});
+
+		$('.projectSection').each(function() {
+			$(this).css("height", (amountOfRows * meanWidth * ratio) +"px");
+		})
+
+		$('.normalVideo').each(function() {
+			var width = $(this).width();
+			$(this).css("height", (width * (93/128)) +"px");
+		})
+
+		$('.wideVideo').each(function() {
+			var width = $(this).width();
+			$(this).css("height", (width * (9/16)) +"px");
+		})
+	}
+
+	$(document).ready(function() {
+		Resizing();
+		$('#site-navigation').onePageNav();
+		$("a.project").each(function() {
+			$(this).children("div.project-overlay").removeClass("project-hightlighted");
+		});
+
+	});
+
+	$(window).resize(function() {
+		Resizing();
+	});
+
+
+	$( "a.project" ).hover(
+		function() {
+			$(this).children("div.project-overlay").addClass("project-hightlighted");
+		}, function() {
+			$(this).children("div.project-overlay").removeClass("project-hightlighted");
+		}
+		);
+	</script>
+	</html>

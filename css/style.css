@@ -3,7 +3,7 @@ Theme Name: Frank's Portfoliosite
 Theme URI: http://www.frankvanboheemen.nl
 Author: Frank van Boheemen
 Author URI: Frank van Boheemen
-Description: Hi. I'm a starter theme called <code>_s</code>, or <em>underscores</em>, if you like. I'm a theme meant for hacking so don't use me as a <em>Parent Theme</em>. Instead try turning me into the next, most awesome, WordPress theme out there. That's what I'm here for.
+Description:
 Version: 1.0.0
 
 
@@ -11,100 +11,101 @@ Version: 1.0.0
 /*--------------------------------------------------------------
 TABLE OF CONTENTS:
 ----------------------------------------------------------------
-# Normalize
 # Typography
 # Elements
-# Forms
 # Navigation
-	## Links
-	## Menus
-# Accessibility
-# Alignments
-# Clearings
-# Widgets
+# Pageheader
+# About me
+# Skills
+# Projects
 # Content
-	## Posts and pages
-	## Asides
-	## Comments
-# Infinite scroll
-# Media
-	## Captions
-	## Galleries
+# Footer
+# Layout - single project
+# Responsive
 --------------------------------------------------------------*/
-
+/*--------------------------------------------------------------
+# Variables
+--------------------------------------------------------------*/
 /*--------------------------------------------------------------
 # Typography
 --------------------------------------------------------------*/
+/* line 49, ../_scss/style.scss */
 html,
 body,
 button,
 input,
 select,
 textarea {
-	color: #404040;
-font-family: 'Raleway', sans-serif;
-	font-size: 13px;
-	font-size: 0.92rem;
-	line-height: 1.5;
+  color: #404040;
+  font-family: 'Raleway', sans-serif;
+  line-height: 1.5;
 }
 
-
+/* line 60, ../_scss/style.scss */
 h1, h2, h3, h4 {
   margin: 1.414rem 0 .5rem;
   line-height: 1.42;
 }
 
+/* line 65, ../_scss/style.scss */
 h1 {
   margin-top: 0;
-  margin-bottom:1.5rem;
+  margin-bottom: 1.5rem;
   font-weight: 700;
   font-size: 3.75rem;
 }
 
+/* line 72, ../_scss/style.scss */
 h2 {
-	font-weight: 700;
- 	font-size: 2.4rem;
+  font-weight: 700;
+  font-size: 2.4rem;
 }
 
+/* line 77, ../_scss/style.scss */
 h3 {
   font-size: 1.999rem;
 }
 
+/* line 81, ../_scss/style.scss */
 h4 {
   font-size: 1.2rem;
 }
 
-h5{
+/* line 85, ../_scss/style.scss */
+h5 {
   font-size: 1rem;
   display: block;
 }
 
+/* line 90, ../_scss/style.scss */
 h6 {
   font-size: .88rem;
 }
 
+/* line 94, ../_scss/style.scss */
 small {
   font-size: .707em;
 }
 
+/* line 98, ../_scss/style.scss */
 dfn,
 cite,
 em,
 i {
-	font-style: italic;
+  font-style: italic;
 }
 
-
+/* line 106, ../_scss/style.scss */
 .projectPost {
-	margin-bottom: 40px !important;
-	font-size: 1.1rem;
-	background-color: #fff;
+  margin-bottom: 40px !important;
 }
 
+/* line 110, ../_scss/style.scss */
 strong {
-	font-weight: 700
+  font-weight: 700;
 }
 
+/* line 114, ../_scss/style.scss */
 blockquote p {
   font-size: 1.5rem;
   font-weight: 200;
@@ -114,238 +115,224 @@ blockquote p {
   text-align: center;
 }
 
+/* line 123, ../_scss/style.scss */
 address {
-	margin: 0 0 1.5em;
+  margin: 0 0 1.5em;
 }
 
+/* line 127, ../_scss/style.scss */
 pre {
-	background: #eee;
-	font-family: "Courier 10 Pitch", Courier, monospace;
-	font-size: 15px;
-	font-size: 0.9375rem;
-	line-height: 1.6;
-	margin-bottom: 1.6em;
-	max-width: 100%;
-	overflow: auto;
-	padding: 1.6em;
+  background: #eee;
+  font-family: "Courier 10 Pitch", Courier, monospace;
+  font-size: 15px;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  margin-bottom: 1.6em;
+  max-width: 100%;
+  overflow: auto;
+  padding: 1.6em;
 }
 
+/* line 139, ../_scss/style.scss */
 code,
 kbd,
 tt,
 var {
-	font-family: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
-	font-size: 15px;
-	font-size: 0.9375rem;
+  font-family: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
+  font-size: 15px;
+  font-size: 0.9375rem;
 }
 
+/* line 148, ../_scss/style.scss */
 abbr,
 acronym {
-	border-bottom: 1px dotted #666;
-	cursor: help;
+  border-bottom: 1px dotted #666;
+  cursor: help;
 }
 
+/* line 154, ../_scss/style.scss */
 mark,
 ins {
-	background: #fff9c0;
-	text-decoration: none;
+  background: #fff9c0;
+  text-decoration: none;
 }
 
+/* line 160, ../_scss/style.scss */
 big {
-	font-size: 125%;
+  font-size: 125%;
+}
+
+/* line 164, ../_scss/style.scss */
+a:link, a:visited, a:hover, a:active {
+  text-decoration: none;
 }
 
 /*--------------------------------------------------------------
-## Layout - general
+# Elements
 --------------------------------------------------------------*/
+/* line 171, ../_scss/style.scss */
 body {
-	width: 100%;
+  background-color: #4A617C;
 }
 
+/* line 175, ../_scss/style.scss */
 section {
-	position: relative;
+  position: relative;
 }
 
+/* line 179, ../_scss/style.scss */
 .content {
-	max-width: 1232px;
-	padding: 4rem 12%;
-	margin: 0 auto;
+  padding: 1rem 0 2rem;
 }
 
+/* line 184, ../_scss/style.scss */
 .site {
-	padding-top: 150px;
-	position: relative;
+  padding-top: 150px;
+  position: relative;
 }
 
+/* line 189, ../_scss/style.scss */
 .section-header {
-	clear: both;
-	background-color: #474746;
-	color: #f2f2f2;
+  background-color: #fff;
+  color: #4fb09a;
 }
 
+/* line 194, ../_scss/style.scss */
 .section-title {
-	display: block;
-	padding: 50px 0;
-	text-align: center;
-	margin: 0 !important;
-	font-weight: 800;
+  display: block;
+  padding: 75px 0 50px;
+  text-align: center;
+  margin: 0 !important;
+  font-weight: 700;
 }
 
 /*--------------------------------------------------------------
-## Layout - navigation
+# Navigation
 --------------------------------------------------------------*/
-
-.navbar-container {
-	margin: 0 auto;
+/* line 206, ../_scss/style.scss */
+.nav-link {
+  display: inline-block;
+  color: #fff !important;
+  text-align: center;
+  padding: 16px 0;
+  margin-right: 16px;
+  font-weight: 700;
+  font-size: 1.121rem;
 }
 
-.main-navigation {
-	position: absolute;
-	width: 100%;
-	z-index: 100;
-	box-shadow: 0 1px 1px rgba(0,0,0, .1);
-	margin-bottom: 0px;
-	list-style-type: none;
-    overflow: hidden;
-    background-color: #72939D;
-}
-
-.main-navigation ul {
-	float:right;
-}
-
-.main-navigation ul li {
-	float: left;
-	list-style: none;
-}
-
-.main-navigation ul li a {
-    display: inline-block;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 12px 16px;
-    text-decoration: none;
-    transition: 0.3s;
-    font-size: 1.121rem;
-    text-transform: capitalize;
-}
-
-.main-navigation ul li:not(:first-child) a:hover {background-color: #86AEB7;}
-
-.main-navigation li.icon {display: none;}
-
-.main-navigation-scrolled{
-	position: fixed;
-	top:0;
-	width: 100%;
-	margin-top:0 !important;
-}
-
-.inactiveLink {
-   text-indent: -9999px;
-}
-
-#logo {
-	position: fixed;
-	left: 10px;
-	top: 16px;
-	width:220px;
-	z-index: 150;
-}
-
+/* line 216, ../_scss/style.scss */
 #logoProjectPage {
-	position: absolute;
-	left: 10px;
-	top: 16px;
-	width:220px;
-	z-index: 150;
+  position: absolute;
+  left: 10px;
+  top: 16px;
+  width: 220px;
+  z-index: 150;
 }
 
-#page {
-	min-height: 1000px;
+/* line 224, ../_scss/style.scss */
+.shadow {
+  background-color: #4A617C !important;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 
+@media (max-width: 1000px) {
+  /* line 230, ../_scss/style.scss */
+  .navbar {
+    background-color: #4A617C;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  }
+}
 /*--------------------------------------------------------------
-## Layout - header
+# Pageheader
 --------------------------------------------------------------*/
-
+/* line 240, ../_scss/style.scss */
 #pageheader {
-	padding: 200px 50px 0px 50px;
-	height: 800px;
-	background-color: #575756;
-	background-image: url("/images/background-pattern.png");
-	background-repeat: repeat;
-	background-size: 400px;
-	text-align: center;
-	font-weight: 100;
-	color: #f2f2f2;
+  padding: 120px 180px 0px;
+  height: 720px;
+  background-color: #4A617C;
+  background-image: url("/images/pattern2.svg");
+  background-repeat: repeat;
+  background-size: 300px;
+  text-align: center;
+  font-weight: 100;
+  color: #fff;
 }
-
+/* line 251, ../_scss/style.scss */
 #pageheader p {
-	font-size: 3em;
+  font-size: 2.5em;
 }
-
+/* line 255, ../_scss/style.scss */
 #pageheader h1#hello {
-	font-weight: 100;
-	font-size: 5em;
+  font-weight: 100;
+  font-size: 5em;
 }
 
+/* line 261, ../_scss/style.scss */
 .selfie {
-	width:	200px;
-	margin: 0 auto;
-	margin-bottom: 30px;
+  width: 200px;
+  margin: 0 auto;
+  margin-bottom: 30px;
 }
 
 /*--------------------------------------------------------------
-## Layout - about me
+# About me
 --------------------------------------------------------------*/
+/* line 271, ../_scss/style.scss */
+#aboutme {
+  background-color: #fff;
+}
+/* line 274, ../_scss/style.scss */
+#aboutme .row {
+  padding: 50px 0;
+}
+/* line 278, ../_scss/style.scss */
+#aboutme .text-container {
+  display: flex;
+  justify-content: center;
+}
+/* line 282, ../_scss/style.scss */
+#aboutme .text-container div {
+  color: #4A617C;
+}
+/* line 284, ../_scss/style.scss */
+#aboutme .text-container div h4 {
+  text-align: center;
+  padding-bottom: 15px;
+  font-weight: 700;
+}
+/* line 289, ../_scss/style.scss */
+#aboutme .text-container div p {
+  text-align: center;
+}
 
-	section#aboutme {
-		height: 500px;
-	}
-
-
+/* line 296, ../_scss/style.scss */
 img.backgroundImage {
-	width:50%;
-	margin:0 auto;
-	display: block;
-	margin-top:10px;
-	margin-bottom:-20px;
-}
-
-
-#aboutmetext div {
-	background-color: #72939D;
-	width:33.3333333333333%;
-	float: left;
-	padding: 1% 4%;
-	color: #f2f2f2;
-	height: 500px;
-}
-
-#aboutmetext div:nth-child(2) {
-	background-color: #86AEB7;
-}
-
-
-#aboutmetext div h4 {
-	text-align: center;
-	font-weight: 700;
+  max-width: 250px;
+  width: 80%;
+  margin: 0 auto;
+  display: block;
 }
 
 /*--------------------------------------------------------------
-## Layout - skills
+# Skills
 --------------------------------------------------------------*/
-
+/* line 309, ../_scss/style.scss */
 section#skills {
-	background-color: #C9C5B8;
+  background-color: #fff;
+}
+/* line 311, ../_scss/style.scss */
+section#skills span {
+  color: #4A617C;
 }
 
 @-webkit-keyframes animate-width {
-  0% { width: 0; }
-  100% { visibility: visible; }
+  0% {
+    width: 0;
+  }
+  100% {
+    visibility: visible;
+  }
 }
-
 @-moz-keyframes animate-width {
   0% {
     width: 0;
@@ -386,21 +373,24 @@ section#skills {
     visibility: visible;
   }
 }
-
+/* line 362, ../_scss/style.scss */
 #bar-chart {
   height: 380px;
-  width: 60%;
+  width: 50%;
   position: relative;
-  margin: 50px auto 0;
+  margin: 0 auto;
 }
+/* line 367, ../_scss/style.scss */
 #bar-chart * {
   box-sizing: border-box;
 }
-
+/* line 371, ../_scss/style.scss */
 #bar-chart .graph {
   height: 330px;
   position: relative;
+  left: 60px;
 }
+/* line 376, ../_scss/style.scss */
 #bar-chart .bars {
   height: 300px;
   padding: 0 2%;
@@ -408,17 +398,16 @@ section#skills {
   width: 100%;
   z-index: 10;
 }
+/* line 383, ../_scss/style.scss */
 #bar-chart .bar-group {
   display: block;
-  float:left;
+  float: left;
   height: 100%;
   position: relative;
   width: 25%;
   margin-right: 0%;
 }
-#bar-chart .bar-group:last-child {
-  margin-right: 0;
-}
+/* line 391, ../_scss/style.scss */
 #bar-chart .bar-group .bar {
   visibility: hidden;
   height: 0;
@@ -430,7 +419,95 @@ section#skills {
   left: 25%;
   border-radius: 6px 6px 0 0;
 }
+/* line 402, ../_scss/style.scss */
+#bar-chart .bar-group .bar span {
+  display: none;
+}
+/* line 406, ../_scss/style.scss */
+#bar-chart .bar-group .bar .bar-1 {
+  animation-delay: 0.3s;
+  -webkit-animation-delay: 0.3s;
+}
+/* line 411, ../_scss/style.scss */
+#bar-chart .bar-group .bar .bar-2 {
+  animation-delay: 0.4s;
+  -webkit-animation-delay: 0.4s;
+}
+/* line 416, ../_scss/style.scss */
+#bar-chart .bar-group .bar .bar-3 {
+  animation-delay: 0.5s;
+  -webkit-animation-delay: 0.5s;
+}
+/* line 420, ../_scss/style.scss */
+#bar-chart .bar-group .bar .bar-4 {
+  animation-delay: 0.6s;
+  -webkit-animation-delay: 0.6s;
+}
+/* line 426, ../_scss/style.scss */
+#bar-chart .bar-group:last-child {
+  margin-right: 0;
+}
+/* line 430, ../_scss/style.scss */
+#bar-chart ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+/* line 436, ../_scss/style.scss */
+#bar-chart .x-axis {
+  padding: 0 2%;
+  bottom: -30px;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+}
+/* line 443, ../_scss/style.scss */
+#bar-chart .x-axis li {
+  float: left;
+  width: 25%;
+  text-align: center;
+  font-weight: 700;
+}
+/* line 450, ../_scss/style.scss */
+#bar-chart .y-axis {
+  position: absolute;
+  text-align: right;
+  width: 100%;
+}
+/* line 454, ../_scss/style.scss */
+#bar-chart .y-axis li {
+  border-top: 1px solid #4A617C;
+  display: block;
+  height: 75px;
+  width: 100%;
+}
+/* line 459, ../_scss/style.scss */
+#bar-chart .y-axis li span {
+  display: block;
+  margin: -10px 0 0 -100px;
+  padding: 0 10px;
+  width: 80px;
+  text-align: center;
+  font-weight: 700;
+}
+/* line 469, ../_scss/style.scss */
+#bar-chart .stat-1 {
+  background-color: #4A617C;
+}
+/* line 472, ../_scss/style.scss */
+#bar-chart .stat-2 {
+  background-color: #F7931D;
+}
+/* line 476, ../_scss/style.scss */
+#bar-chart .stat-3 {
+  background-color: #4fb09a;
+}
+/* line 479, ../_scss/style.scss */
+#bar-chart .stat-4 {
+  background-color: #FFC20E;
+}
 
+/* line 484, ../_scss/style.scss */
 .in-view {
   -webkit-animation: animate-height;
   -moz-animation: animate-height;
@@ -445,446 +522,365 @@ section#skills {
   -webkit-animation-fill-mode: forwards;
 }
 
-#bar-chart .bar-group .bar span {
-  display: none;
-}
-#bar-chart .bar-group .bar-1 {
-  animation-delay: 0.3s;
-  -webkit-animation-delay: 0.3s;
-}
-#bar-chart .bar-group .bar-2 {
-  animation-delay: 0.4s;
-  -webkit-animation-delay: 0.4s;
-}
-#bar-chart .bar-group .bar-3 {
-  animation-delay: 0.5s;
-  -webkit-animation-delay: 0.5s;
-}
-#bar-chart .bar-group .bar-4 {
-  animation-delay: 0.6s;
-  -webkit-animation-delay: 0.6s;
-}
-
-#bar-chart ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-#bar-chart .x-axis {
-  padding: 0 2%;
-  bottom: -20px;
-  position: absolute;
-  text-align: center;
-  width: 100%;
-}
-#bar-chart .x-axis li {
-  float: left;
-  width: 25%;
-  text-align: center;
-  color:#f2f2f2;
-  font-weight: 700;
-
-}
-
-#bar-chart .y-axis {
-  position: absolute;
-  text-align: right;
-  width: 100%;
-}
-#bar-chart .y-axis li {
-  border-top: 1px solid #f2f2f2;
-  display: block;
-  height: 75px;
-  width: 100%;
-}
-#bar-chart .y-axis li span {
-  display: block;
-  margin: -10px 0 0 -80px;
-  padding: 0 10px;
-  width: 40px;
-  color:#f2f2f2;
-  font-weight: 700;
-
-}
-#bar-chart .stat-1 {
-  background-color: #72939D;
-  }
-#bar-chart .stat-2 {
-    background-color: #414745;
-
-}
-#bar-chart .stat-3 {
-    background-color: #86AEB7;
-}
-
-#bar-chart .stat-4 {
-    background-color: #E6B122;
-}
-
 /*--------------------------------------------------------------
-## Layout - projects
+# Projects
 --------------------------------------------------------------*/
-
-.single-project{
-	overflow: hidden;
-	float:left;
-	width: 49.999%;
+/* line 502, ../_scss/style.scss */
+.single-project {
+  overflow: hidden;
+  float: left;
+  width: 49.999%;
 }
 
+/* line 508, ../_scss/style.scss */
 .single-project-small {
-	overflow: hidden;
-	float:left;
-	width:33.33333%;
+  overflow: hidden;
+  float: left;
+  width: 33.33333%;
 }
-
+/* line 512, ../_scss/style.scss */
 .single-project-small .project {
-	background-size: auto 120% !important;
-
+  background-size: auto 120% !important;
 }
 
+/* line 517, ../_scss/style.scss */
 section#projects {
-	background-color: #C9C5B8;
+  background-color: #4A617C;
 }
-
+/* line 519, ../_scss/style.scss */
 section#projects .project {
-	width:102%;
-	height: 102%;
-	float: left;
-	position: relative;
-	overflow: hidden;
-	background-position:center;
-	background-size: 110% auto;
-	background-repeat: no-repeat;
-	transition: all 0.3s ease;
+  width: 102%;
+  height: 102%;
+  float: left;
+  position: relative;
+  overflow: hidden;
+  background-position: center;
+  background-size: 110% auto;
+  background-repeat: no-repeat;
+  transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   -ms-transition: all 0.3s ease;
   -webkit-transition: all 0.3s ease;
   -o-transition: all 0.3s ease;
-
 }
-
+/* line 534, ../_scss/style.scss */
 section#projects .project:hover {
-transform: scale(1.2);
-} 
+  transform: scale(1.2);
+}
 
+/* line 539, ../_scss/style.scss */
 .project-overlay {
-	postion: relative;
-	top: 0;
-	height: 100%;
-	width:100%;
-	background-color: rgba(230,177,40,0.7);
-	opacity: 0;
-	padding-top: 18%;
+  postion: relative;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(74, 97, 124, 0.7);
+  opacity: 0;
+  padding-top: 18%;
 }
 
+/* line 549, ../_scss/style.scss */
 .project-hightlighted {
-	opacity: 1;
+  opacity: 1;
 }
 
+/* line 553, ../_scss/style.scss */
 .project-title {
-	font-weight: 800;
-	text-decoration: none;
-	color: #fff;
-	text-align: center;
-	margin: 0 auto;
-	padding-left: 10%;
-	padding-right: 10%;
+  font-weight: 700;
+  text-decoration: none;
+  color: #fff;
+  text-align: center;
+  margin: 0 auto;
+  padding-left: 10%;
+  padding-right: 10%;
 }
 
+/* line 563, ../_scss/style.scss */
 .project-description {
-	text-decoration: none;
-	color: #fff;
-	text-align: center;
-	margin: 0 auto;
-	font-size: 0.75rem;
-	padding-left: 10%;
-	padding-right: 10%;
+  text-decoration: none;
+  color: #fff;
+  text-align: center;
+  margin: 0 auto;
+  font-size: 0.75rem;
+  padding-left: 10%;
+  padding-right: 10%;
 }
 
-a:link {
-    text-decoration: none;
-}
-
-a:visited {
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: none;
-}
-
-a:active {
-    text-decoration: none;
-}
-
+/* line 573, ../_scss/style.scss */
 #projectsfooter {
-	clear: both;
+  clear: both;
 }
-/*--------------------------------------------------------------
-## Layout - footer
---------------------------------------------------------------*/
 
+/*--------------------------------------------------------------
+# Footer
+--------------------------------------------------------------*/
+/* line 580, ../_scss/style.scss */
 .site-footer {
-	padding-top: 30px;
-	background-color: #575756;
-	height: 150px;
+  color: #fff;
+  padding-top: 30px;
+  background-color: #4A617C;
+  background-image: url("/images/pattern2.svg");
+  background-repeat: repeat;
+  background-size: 200px;
+  text-align: center;
+}
+/* line 588, ../_scss/style.scss */
+.site-footer p {
+  font-weight: 500;
+  margin-top: 40px;
+  margin-bottom: 40px;
 }
 
+/* line 595, ../_scss/style.scss */
 #emailbutton {
-	display:block;
-	position:relative;
-	top: 15px;
-	background-color:#72939D;
-	width:300px;
-	height:55px;
-	padding: 10px 0px 8px 0px;
-	margin:0 auto;
-	text-align:center;
-	font-size: 1.4rem;
-	color:#f2f2f2;
-	border-bottom: 5px solid #52676E;
-	border-radius: 3px;
+  display: block;
+  position: relative;
+  top: 15px;
+  background-color: #022330;
+  width: 280px;
+  height: 55px;
+  padding: 10px 0px 8px 0px;
+  margin: 0 auto;
+  margin-bottom: 80px;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #fff;
+  border-bottom: 5px solid #022330;
+  border-radius: 3px;
 }
 
+/* line 613, ../_scss/style.scss */
+#emailbutton:hover {
+  color: #022330;
+  background-color: #fff;
+  border-bottom: 5px solid #022330;
+}
+
+/* line 619, ../_scss/style.scss */
 #emailbutton:active {
-	transform: translate(0px,5px);
-  -webkit-transform: translate(0px,5px);
-	border-bottom: 2px solid #52676E;
-}
-
-.designCredits {
-	text-align: center;
-	position: relative;
-	bottom: -25px;
+  transform: translate(0px, 3px);
+  -webkit-transform: translate(0px, 3px);
+  border-bottom: 2px solid #022330;
 }
 
 /*--------------------------------------------------------------
-## Layout - single project
+# Layout - single project
 --------------------------------------------------------------*/
+/* line 629, ../_scss/style.scss */
+#super-container {
+  width: 100%;
+  background-color: #fff;
+}
 
+/* line 634, ../_scss/style.scss */
 #header-image {
-	height: 500px;
-	width: 100%;
-	background-size: 100% auto;
-	background-position:center;
-	background-repeat: no-repeat;
+  height: 500px;
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
-img.small {
-	display: block;
-	width: 60%;
-	margin: 5rem auto;
-}
-
-img.big {
-	display: block;
-	width: 100%;
-	margin: 5rem auto;
-}
-
-.postTitle {
-	text-align: center;
-}
-
-.projectPost p {
-	margin-bottom: 1rem;
-}
-
+/* line 646, ../_scss/style.scss */
 .embeddedVideo {
-	display: block;
-	width: 60%;
-	margin: 3rem auto;
+  display: block;
+  width: 60%;
+  margin: 3rem auto;
 }
 
-.rowTitle {
-	clear:both;
+/* line 652, ../_scss/style.scss */
+.project-container {
+  padding-bottom: 50px;
 }
-
-.rowTitle, .keyword {
-	margin: 2px;
-	display: block;
-	padding: 6px;
-	float: left;
-	margin-right: 4px !important;
+/* line 654, ../_scss/style.scss */
+.project-container .project-summary {
+  padding: 4rem 0 0;
 }
-
-.keyword {
-	background-color: #72939D;
-	border-radius: 2px;
-	color: #f2f2f2;
+/* line 658, ../_scss/style.scss */
+.project-container p, .project-container li {
+  font-weight: 500;
 }
-
-.postText {
-	clear: both;
+/* line 662, ../_scss/style.scss */
+.project-container .post-title {
+  text-align: center;
+  color: #4A617C;
 }
-
-.projectPost p {
-	line-height: 1.8;
+/* line 666, ../_scss/style.scss */
+.project-container .post-summary {
+  margin: 20px 0;
 }
-
-.projectPost h3 {
-	text-align: center;
-	margin: 4rem .5rem 1.5rem;
-		font-weight: 700;
+/* line 669, ../_scss/style.scss */
+.project-container .keywords-container {
+  margin-top: 25px;
 }
-
-.projectPost h5 {
-	margin-top:2rem;
-	color: #72939D;
-	font-weight: 700;
-	font-size: 1.4rem;
+/* line 671, ../_scss/style.scss */
+.project-container .keywords-container .keyword-row {
+  padding: 5px 0;
 }
-
-.projectPost a {
-	font-weight: 700;
-	color: #72939D;
+/* line 674, ../_scss/style.scss */
+.project-container .keywords-container .keyword-title {
+  display: block;
+  padding: 6px 0;
+  margin: 2px 0;
 }
-
-.projectPost ol, .projectPost ul {
-	margin-top: 1rem;
-	margin-left: 2rem;
-	margin-bottom: 1rem;
+/* line 679, ../_scss/style.scss */
+.project-container .keywords-container .keyword {
+  margin: 2px;
+  display: block;
+  padding: 6px;
+  float: left;
+  margin-right: 4px !important;
+  background-color: #4A617C;
+  border-radius: 2px;
+  color: #fff;
 }
-
-.projectPost ul {
-	list-style: disc;
+/* line 691, ../_scss/style.scss */
+.project-container .full-width h3 {
+  text-align: center;
 }
-
-.projectPost ol {
-	list-style: decimal;
+/* line 695, ../_scss/style.scss */
+.project-container img {
+  display: block;
+  margin: 0 auto;
 }
-
+/* line 699, ../_scss/style.scss */
+.project-container img.side-image {
+  max-height: 400px;
+}
+/* line 702, ../_scss/style.scss */
+.project-container img.small {
+  max-width: 70%;
+}
+/* line 705, ../_scss/style.scss */
+.project-container img.big {
+  max-width: 100%;
+}
+/* line 708, ../_scss/style.scss */
+.project-container .paragraph {
+  margin: 8rem 0;
+}
+/* line 711, ../_scss/style.scss */
+.project-container .col {
+  padding: 0 50px;
+}
+/* line 714, ../_scss/style.scss */
+.project-container .text-container {
+  margin-bottom: 2rem;
+}
+/* line 717, ../_scss/style.scss */
+.project-container h3 {
+  margin-top: 0;
+  text-align: left;
+  font-weight: 700;
+  color: #4A617C;
+}
+/* line 723, ../_scss/style.scss */
+.project-container h5 {
+  margin-top: 2rem;
+  color: #4A617C;
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+/* line 729, ../_scss/style.scss */
+.project-container a {
+  font-weight: 800;
+  color: #4fb09a;
+}
+/* line 733, ../_scss/style.scss */
+.project-container ol, .project-container ul {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+/* line 738, ../_scss/style.scss */
+.project-container li {
+  margin-bottom: 4px;
+}
+/* line 741, ../_scss/style.scss */
+.project-container ul {
+  list-style: disc;
+}
+/* line 744, ../_scss/style.scss */
+.project-container ol {
+  list-style: decimal;
+}
 
 /*--------------------------------------------------------------
-## Layout - responsive
+# Responsive
 --------------------------------------------------------------*/
-
-@media screen and (min-width:720px) {
-	.main-navigation ul {
-		float:right;
-	}
+@media screen and (max-width: 770px) {
+  /* line 754, ../_scss/style.scss */
+  #bar-chart .x-axis li, #bar-chart .y-axis li {
+    font-size: 0.8rem;
+  }
 }
+@media screen and (max-width: 720px) {
+  /* line 760, ../_scss/style.scss */
+  .post-title {
+    font-size: 3rem;
+  }
 
-@media screen and (max-width:770px) {
-	#bar-chart .x-axis li, #bar-chart .y-axis li {
-		font-size: 0.8rem;
-	}
-}
+  /* line 763, ../_scss/style.scss */
+  #pageheader {
+    height: 1000px;
+    padding: 125px 50px 0px 50px;
+  }
+  /* line 766, ../_scss/style.scss */
+  #pageheader p {
+    font-size: 2.5em;
+  }
 
+  /* line 770, ../_scss/style.scss */
+  .single-project {
+    width: 100%;
+  }
 
+  /* line 773, ../_scss/style.scss */
+  .graph {
+    left: 0 !important;
+  }
 
-/* When the screen is less than 680 pixels wide, hide all list items, except for the first one ("Home"). Show the list item that contains the link to open and close the topnav (li.icon) */
+  /* line 776, ../_scss/style.scss */
+  #bar-chart {
+    width: 80%;
+  }
 
-@media screen and (max-width:720px) {
+  /* line 779, ../_scss/style.scss */
+  #bar-chart .x-axis li, #bar-chart .y-axis li {
+    font-size: 0.6rem;
+  }
 
-	.postTitle {
-	 	font-size: 3rem;
-	}
-	.main-navigation li:not(:first-child) {
-		display: none;
-		float:right;
-	}
-	.main-navigation li.icon {
-		float: right;
-		display: inline-block;
-	}
-	.main-navigation ul {
-		float:left;
-		width:100%;
-	}
-	.main-navigation ul li a {
-		padding: 15px 16px;
-	}
-
-	#logo {
-		top:18px;
-	}
-
-	#pageheader{
-		height: 1000px;
-	    padding: 125px 50px 0px 50px;
-	}
-
-	#pageheader p {
-	font-size: 2.5em;
-}
-
-	section#aboutme {
-		height: 1500px;
-	}
-
-	#aboutmetext div {
-		width: 100%;
-		height: 500px;
-	}	
-
-
-	.single-project {
-		width: 100%;
-	}
-
-		#bar-chart {
-	width:80%;
-	}
-	#bar-chart .x-axis li, #bar-chart .y-axis li {
-		font-size: 0.6rem;
-	}
-	#bar-chart .y-axis li span {
+  /* line 782, ../_scss/style.scss */
+  #bar-chart .y-axis li span {
     margin: -10px 0 0 -60px;
-	}
-
-	/* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens */
-  .main-navigation.responsive li.icon {
-    position: absolute;
-    right: 0;
-    bottom: 0;
   }
 
-  .main-navigation.responsive li {
-    float: none;
-    display: inline;
-  }
-   .main-navigation.responsive li a {
-    display: block;
-    text-align: left;
-  }
-
+  /* line 786, ../_scss/style.scss */
   #header-image {
-	height: 250px;
-	width: 100%;
-	background-size: auto 125%;
-	background-position:center;
-	background-repeat: no-repeat;
-}
+    height: 250px;
+  }
 
-.rowTitle {
-	float:none;
-}
+  /* line 789, ../_scss/style.scss */
+  img.small {
+    margin: 8% auto;
+  }
 
-.keyword {
-	font-size: 0.8rem;
-}
-img.small, .embeddedVideo {
-	width: 100%;
-	margin:8% auto;
-}
+  /* line 792, ../_scss/style.scss */
+  .embeddedVideo {
+    width: 100%;
+    margin: 8% auto;
+  }
 
-	.single-project-small .project-title {
-		font-size: 0.7rem;
-	}
+  /* line 796, ../_scss/style.scss */
+  .single-project-small .project-title {
+    font-size: 0.7rem;
+  }
 
-	.single-project-small .project-description {
-		display: none;
-	}
-
-}
-
-@media screen and (max-width:550px) {
-		section#aboutme {
-		height: 1200px;
-	}
-
-	#aboutmetext div {
-		height: 400px;
-	}	
+  /* line 799, ../_scss/style.scss */
+  .single-project-small .project-description {
+    display: none;
+  }
 }
