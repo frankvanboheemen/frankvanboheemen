@@ -830,56 +830,61 @@ section#projects .project:hover {
   }
   /* line 766, ../_scss/style.scss */
   #pageheader p {
-    font-size: 2.5em;
+    font-size: 2.2rem;
   }
 
   /* line 770, ../_scss/style.scss */
+  .navbar-brand img {
+    height: 18px;
+  }
+
+  /* line 773, ../_scss/style.scss */
   .single-project {
     width: 100%;
   }
 
-  /* line 773, ../_scss/style.scss */
+  /* line 776, ../_scss/style.scss */
   .graph {
     left: 0 !important;
   }
 
-  /* line 776, ../_scss/style.scss */
+  /* line 779, ../_scss/style.scss */
   #bar-chart {
     width: 80%;
   }
 
-  /* line 779, ../_scss/style.scss */
+  /* line 782, ../_scss/style.scss */
   #bar-chart .x-axis li, #bar-chart .y-axis li {
     font-size: 0.6rem;
   }
 
-  /* line 782, ../_scss/style.scss */
+  /* line 785, ../_scss/style.scss */
   #bar-chart .y-axis li span {
     margin: -10px 0 0 -60px;
   }
 
-  /* line 786, ../_scss/style.scss */
+  /* line 789, ../_scss/style.scss */
   #header-image {
     height: 250px;
   }
 
-  /* line 789, ../_scss/style.scss */
+  /* line 792, ../_scss/style.scss */
   img.small {
     margin: 8% auto;
   }
 
-  /* line 792, ../_scss/style.scss */
+  /* line 795, ../_scss/style.scss */
   .embeddedVideo {
     width: 100%;
     margin: 8% auto;
   }
 
-  /* line 796, ../_scss/style.scss */
+  /* line 799, ../_scss/style.scss */
   .single-project-small .project-title {
     font-size: 0.7rem;
   }
 
-  /* line 799, ../_scss/style.scss */
+  /* line 802, ../_scss/style.scss */
   .single-project-small .project-description {
     display: none;
   }
