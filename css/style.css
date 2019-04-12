@@ -832,99 +832,112 @@ section#projects .project:hover {
   list-style: decimal;
 }
 
+/* line 769, ../_scss/style.scss */
+.icon-col {
+  margin-top: 50px;
+}
+/* line 772, ../_scss/style.scss */
+.icon-col h5 {
+  font-size: 1rem;
+}
+/* line 776, ../_scss/style.scss */
+.icon-col p {
+  font-size: 0.9rem;
+}
+
 /*--------------------------------------------------------------
 # Responsive
 --------------------------------------------------------------*/
 @media screen and (max-width: 770px) {
-  /* line 774, ../_scss/style.scss */
+  /* line 786, ../_scss/style.scss */
   #bar-chart .x-axis li, #bar-chart .y-axis li {
     font-size: 0.7rem;
   }
 }
 @media screen and (max-width: 720px) {
-  /* line 780, ../_scss/style.scss */
+  /* line 792, ../_scss/style.scss */
   .post-title {
     font-size: 3rem;
   }
 
-  /* line 783, ../_scss/style.scss */
+  /* line 795, ../_scss/style.scss */
   #pageheader {
     height: 1000px;
     padding: 125px 50px 0px 50px;
   }
-  /* line 786, ../_scss/style.scss */
+  /* line 798, ../_scss/style.scss */
   #pageheader p {
     font-size: 2.1rem;
   }
 
-  /* line 790, ../_scss/style.scss */
+  /* line 802, ../_scss/style.scss */
   .navbar-brand img {
     height: 18px;
   }
 
-  /* line 793, ../_scss/style.scss */
+  /* line 805, ../_scss/style.scss */
   .single-project {
     width: 100%;
   }
 
-  /* line 796, ../_scss/style.scss */
+  /* line 808, ../_scss/style.scss */
   .graph {
     left: 0 !important;
   }
 
-  /* line 799, ../_scss/style.scss */
+  /* line 811, ../_scss/style.scss */
   #bar-chart {
     width: 80%;
   }
 
-  /* line 802, ../_scss/style.scss */
+  /* line 814, ../_scss/style.scss */
   #bar-chart .x-axis li, #bar-chart .y-axis li {
     font-size: 0.6rem;
   }
 
-  /* line 805, ../_scss/style.scss */
+  /* line 817, ../_scss/style.scss */
   #bar-chart .y-axis li span {
     margin: -10px 0 0 -60px;
   }
 
-  /* line 809, ../_scss/style.scss */
+  /* line 821, ../_scss/style.scss */
   #header-image {
     height: 250px;
   }
 
-  /* line 812, ../_scss/style.scss */
+  /* line 824, ../_scss/style.scss */
   img.small {
     margin: 8% auto;
   }
 
-  /* line 815, ../_scss/style.scss */
+  /* line 827, ../_scss/style.scss */
   .embeddedVideo {
     width: 100%;
     margin: 8% auto;
   }
 
-  /* line 819, ../_scss/style.scss */
+  /* line 831, ../_scss/style.scss */
   .single-project-small .project-title, .single-project-small .project-category {
     font-size: 0.7rem;
   }
 
-  /* line 823, ../_scss/style.scss */
+  /* line 835, ../_scss/style.scss */
   .single-project-small .project-description {
     display: none;
   }
 }
 @media screen and (max-width: 1060px) {
-  /* line 829, ../_scss/style.scss */
+  /* line 841, ../_scss/style.scss */
   .project-title {
     font-size: 1.2rem;
   }
 
-  /* line 832, ../_scss/style.scss */
+  /* line 844, ../_scss/style.scss */
   .project-category {
     font-size: 1rem;
   }
 
-  /* line 835, ../_scss/style.scss */
+  /* line 847, ../_scss/style.scss */
   #bar-chart .x-axis li, #bar-chart .y-axis li {
     font-size: 0.8rem;
   }
