@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>AVAssetDownloadDelegate</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+	<link href='https://fonts.googleapis.com/css?family=Raleway:400,100,200italic,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="/css/style.css" media="screen" />
+	<script type="text/javascript" src="/js/jquery.nav.js"></script>
+</head>
+<link rel="stylesheet" type="text/css" href="/css/syntax.css" media="screen" />
+<body>
+	<nav class="navbar navbar-dark navbar-expand-lg fixed-top">
+		<a href="/" class="navbar-brand d-flex w-50 mr-auto">
+		  <img src="/images/logo.png"height="20" alt="">
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-nav">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="navbar-collapse collapse" id="main-nav" >
+			<ul class="nav navbar-nav ml-auto w-100 justify-content-end">
+				<li class="nav-item">
+					<a href="/blog" class="nav-link">Blog</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+		
+	<section id="blogheader" class="pageheader">
+		<h1 style="font-size: 3em;">AVAssetDownloadDelegate</h1>
+		
+		<div class="container">
+			<div class="row justify-content-md-center">
+					<p class="keyword">Swift</p><p class="keyword">iOS</p><p class="keyword">Downloading HLS</p>
+			</div>
+		</div>
+		
+		</section>
+		<section class="blogpost-content">
+			<div class="container col-lg-6">
+			<h2 id="the-basics-of-handling-hls-downloads">The basics of handling HLS downloads</h2>
+<p>Now that we have addressed creating an <code class="highlighter-rouge">AVAssetDownloadURLSession</code> and both types of download tasks, it is time to cover how to handle downloads through its various stages.</p>
+
+<p><code class="highlighter-rouge">AVFoundation</code> informs us through a couple of methods defined in <code class="highlighter-rouge">AVAssetDownloadDelegate</code>. These callbacks are slightly different for the two types of download tasks. Since <code class="highlighter-rouge">AVAggregateAssetDownloadTask</code> is slightly more complex and provides us with more options, I will focus on callbacks for this type of download task in this blogpost.</p>
+
+<p>The three most important method <code class="highlighter-rouge">AVAssetDownloadDelegate</code> has to offer are:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 1. Tells the delegate the location this asset will be downloaded to.</span>
+<span class="kd">func</span> <span class="nf">urlSession</span><span class="p">(</span><span class="n">_</span> <span class="nv">session</span><span class="p">:</span> <span class="kt">URLSession</span><span class="p">,</span>
+                <span class="nv">aggregateAssetDownloadTask</span><span class="p">:</span> <span class="kt">AVAggregateAssetDownloadTask</span><span class="p">,</span>
+                <span class="n">willDownloadTo</span> <span class="nv">location</span><span class="p">:</span> <span class="kt">URL</span><span class="p">)</span>
+
+<span class="c1">// 2. Report progress updates for the aggregate download task</span>
+<span class="kd">func</span> <span class="nf">urlSession</span><span class="p">(</span><span class="n">_</span> <span class="nv">session</span><span class="p">:</span> <span class="kt">URLSession</span><span class="p">,</span>
+                <span class="nv">aggregateAssetDownloadTask</span><span class="p">:</span> <span class="kt">AVAggregateAssetDownloadTask</span><span class="p">,</span>
+                <span class="n">didLoad</span> <span class="nv">timeRange</span><span class="p">:</span> <span class="kt">CMTimeRange</span><span class="p">,</span>
+                <span class="n">totalTimeRangesLoaded</span> <span class="nv">loadedTimeRanges</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSValue</span><span class="p">],</span>
+                <span class="nv">timeRangeExpectedToLoad</span><span class="p">:</span> <span class="kt">CMTimeRange</span><span class="p">,</span>
+                <span class="k">for</span> <span class="nv">mediaSelection</span><span class="p">:</span> <span class="kt">AVMediaSelection</span><span class="p">)</span>
+
+<span class="c1">// 3. Tells the delegate that the task finished transferring data, either successfully or with an error</span>
+<span class="kd">func</span> <span class="nf">urlSession</span><span class="p">(</span><span class="n">_</span> <span class="nv">session</span><span class="p">:</span> <span class="kt">URLSession</span><span class="p">,</span>
+                <span class="nv">task</span><span class="p">:</span> <span class="kt">URLSessionTask</span><span class="p">,</span>
+                <span class="n">didCompleteWithError</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">Error</span><span class="p">?)</span> 
+</code></pre></div></div>
+
+<h2 id="keeping-track-of-your-downloaded-asset">Keeping track of your downloaded asset</h2>
+
+<p>The first callback you will receive provides you with the position the HLS video will be downloaded to. This callback is:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">urlSession</span><span class="p">(</span><span class="n">_</span> <span class="nv">session</span><span class="p">:</span> <span class="kt">URLSession</span><span class="p">,</span>
+                <span class="nv">aggregateAssetDownloadTask</span><span class="p">:</span> <span class="kt">AVAggregateAssetDownloadTask</span><span class="p">,</span>
+                <span class="n">willDownloadTo</span> <span class="nv">location</span><span class="p">:</span> <span class="kt">URL</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>You should keep track of this position for later use. The HLS video should not be moved from this location to allow the system to optimise playback or to free up space when necessary.</p>
+
+<h2 id="progress-updates-of-avaggregateassetdownloadtask">Progress updates of AVAggregateAssetDownloadTask</h2>
+
+<p>Progress updates of <code class="highlighter-rouge">AVAggregateAssetDownloadTask</code> are different from regular download tasks. It does not provide <code class="highlighter-rouge">bytesWritten</code> and <code class="highlighter-rouge">totalBytesWritten</code>, instead, it returns <code class="highlighter-rouge">didLoad: CMTimeRange</code>, <code class="highlighter-rouge">loadedTimeRanges: [NSValue]</code> and <code class="highlighter-rouge">timeRangeExpectedToLoad: CMTimeRange</code>.<code class="highlighter-rouge">AVAssetDownloadURLSession</code> will provide progress updates periodically through:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">urlSession</span><span class="p">(</span><span class="n">_</span> <span class="nv">session</span><span class="p">:</span> <span class="kt">URLSession</span><span class="p">,</span>
+                <span class="nv">aggregateAssetDownloadTask</span><span class="p">:</span> <span class="kt">AVAggregateAssetDownloadTask</span><span class="p">,</span>
+                <span class="n">didLoad</span> <span class="nv">timeRange</span><span class="p">:</span> <span class="kt">CMTimeRange</span><span class="p">,</span>
+                <span class="n">totalTimeRangesLoaded</span> <span class="nv">loadedTimeRanges</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSValue</span><span class="p">],</span>
+                <span class="nv">timeRangeExpectedToLoad</span><span class="p">:</span> <span class="kt">CMTimeRange</span><span class="p">,</span>
+                <span class="k">for</span> <span class="nv">mediaSelection</span><span class="p">:</span> <span class="kt">AVMediaSelection</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>To calculcate progress from this values, we need to iterate through <code class="highlighter-rouge">loadedTimeRanges</code> to calculate the progress, like so:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">var</span> <span class="nv">progress</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="k">for</span> <span class="n">value</span> <span class="k">in</span> <span class="n">loadedTimeRanges</span> <span class="k">where</span> <span class="n">timeRangeExpectedToLoad</span><span class="o">.</span><span class="n">duration</span><span class="o">.</span><span class="n">seconds</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">loadedTimeRange</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">timeRangeValue</span>
+    <span class="n">progress</span> <span class="o">+=</span> <span class="n">loadedTimeRange</span><span class="o">.</span><span class="n">duration</span><span class="o">.</span><span class="n">seconds</span> <span class="o">/</span> <span class="n">timeRangeExpectedToLoad</span><span class="o">.</span><span class="n">duration</span><span class="o">.</span><span class="n">seconds</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="completion-and-error-handling">Completion and error handling</h2>
+
+<p>When a download has completed or when a download fails we will receive a callback on:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">urlSession</span><span class="p">(</span><span class="n">_</span> <span class="nv">session</span><span class="p">:</span> <span class="kt">URLSession</span><span class="p">,</span>
+                <span class="nv">task</span><span class="p">:</span> <span class="kt">URLSessionTask</span><span class="p">,</span>
+                <span class="n">didCompleteWithError</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">Error</span><span class="p">?)</span> 
+</code></pre></div></div>
+
+<p>On receiving this callback for a completed download, we want to identify which download was completed to inform our user. Easiest way is by checking the remote url, but to get this first we’ll need to type cast the generic <code class="highlighter-rouge">URLSessionTask</code> to <code class="highlighter-rouge">AVAggregateAssetDownloadTask</code>, like so:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">guard</span> <span class="k">let</span> <span class="nv">task</span> <span class="o">=</span> <span class="n">task</span> <span class="k">as?</span> <span class="kt">AVAggregateAssetDownloadTask</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+
+<span class="k">let</span> <span class="nv">url</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">urlAsset</span><span class="o">.</span><span class="n">url</span>
+</code></pre></div></div>
+
+<p>To know wether a download has failed, we can simply check for the error not being <code class="highlighter-rouge">nil</code>. After which we should identify the download to handle it accordingly.</p>
+
+<p>There is a small catch here. <code class="highlighter-rouge">AVAggregateAssetDownloadTask.urlAsset.url</code> is a non-optional property and should always have a value. However, I identified some cases in which this property does not have a value and by accessing the property it will crash your app.</p>
+
+<p>Luckily there is also a way to retrieve the remote url from the error:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">guard</span> <span class="k">let</span> <span class="nv">task</span> <span class="o">=</span> <span class="n">task</span> <span class="k">as?</span> <span class="kt">AVAggregateAssetDownloadTask</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+
+<span class="c1">// Check wether there is an error</span>
+<span class="k">if</span> <span class="k">let</span> <span class="nv">error</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">remoteURL</span><span class="p">:</span> <span class="kt">URL</span>
+
+    <span class="c1">// Retrieve the remote url from the error</span>
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">urlString</span> <span class="o">=</span> <span class="p">(</span><span class="n">error</span> <span class="k">as</span> <span class="kt">NSError</span><span class="p">)</span><span class="o">.</span><span class="n">userInfo</span><span class="p">[</span><span class="kt">NSURLErrorFailingURLStringErrorKey</span><span class="p">]</span> <span class="k">as?</span> <span class="kt">String</span><span class="p">,</span>
+        <span class="k">let</span> <span class="nv">url</span> <span class="o">=</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="n">urlString</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">remoteURL</span> <span class="o">=</span> <span class="n">url</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="c1">// Fallback to retrieving the remote url from `AVAggregateAssetDownloadTask` as a fallback.</span>
+        <span class="n">remoteURL</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">urlAsset</span><span class="o">.</span><span class="n">url</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Handle error here</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+
+				<hr />
+				<div class="row justify-content-between bottom-links">
+					<div class="col-5">
+						
+						<a href="/blog/create-downloadtask">< AVAssetDownloadTask and AVAggregateAssetDownloadTask</a>
+						
+					</div>
+					<div class="col-5 align-self-end text-right">
+						
+						<a href="/blog/cellular-and-discretionary-downloads">Cellular access and discretionary downloads ></a>
+						
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	<footer class="site-footer" id="contact">
+	<div class = "container">
+		<div class = "row justify-content-md-center">
+			<div class = "col-md-6">
+				<h2>Feel free to say hi!</h2>
+				<p>
+					Feel free to send me a message by clicking on the big button below. I'm always open to chatting about my projects or design, prototyping and 3D-printing in general.
+				</p>
+				<a href="mailto:frankvb@gmail.com" id="emailbutton">Mail me</a>
+			</div>
+		</div>
+		<div class = "row justify-content-md-center">
+			
+
+			<div class = "col-md-6">
+				<hr style="background-color:#FFF">
+				<div class = "row justify-content-center social-button-container">
+						<a href="https://github.com/frankvanboheemen" target="blank" title="GitHub">
+								<img class="social-button-image" src="/images/github.png" />
+						</a>
+
+						<a href="https://www.linkedin.com/in/frankvanboheemen/" target="blank" title="Linkedin">
+								<img class="social-button-image" src="/images/linkedin.png" />
+						</a>
+
+						<a href="https://www.thingiverse.com/frankvb/designs" target="blank" title="Thingiverse">
+								<img class="social-button-image" src="/images/thingiverse.png" />
+						</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+</body>
+<script>
+$(window).scroll(function() {
+	var scroll = $(window).scrollTop();
+	if (scroll >= 240) {
+		$(".navbar").addClass("shadow");
+	} else {
+		$(".navbar").removeClass("shadow");
+
+	}
+});
+</script>
+</html>

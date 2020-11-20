@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>AVAssetDownloadURLSession for HLS downloads</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+	<link href='https://fonts.googleapis.com/css?family=Raleway:400,100,200italic,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="/css/style.css" media="screen" />
+	<script type="text/javascript" src="/js/jquery.nav.js"></script>
+</head>
+<link rel="stylesheet" type="text/css" href="/css/syntax.css" media="screen" />
+<body>
+	<nav class="navbar navbar-dark navbar-expand-lg fixed-top">
+		<a href="/" class="navbar-brand d-flex w-50 mr-auto">
+		  <img src="/images/logo.png"height="20" alt="">
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-nav">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="navbar-collapse collapse" id="main-nav" >
+			<ul class="nav navbar-nav ml-auto w-100 justify-content-end">
+				<li class="nav-item">
+					<a href="/blog" class="nav-link">Blog</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+		
+	<section id="blogheader" class="pageheader">
+		<h1 style="font-size: 3em;">AVAssetDownloadURLSession for HLS downloads</h1>
+		
+		<div class="container">
+			<div class="row justify-content-md-center">
+					<p class="keyword">Swift</p><p class="keyword">iOS</p><p class="keyword">Downloading HLS</p>
+			</div>
+		</div>
+		
+		</section>
+		<section class="blogpost-content">
+			<div class="container col-lg-6">
+			<h2 id="avassetdownloadurlsession">AVAssetDownloadURLSession</h2>
+
+<p>When Downloading HLS, you can not use <code class="highlighter-rouge">URLSession.shared</code>. Instead, you will need to set up a dedicated URLSession. AVFoundation offers a specialised subclass of URLSession, tailored for downloading HLS: <a href="https://developer.apple.com/documentation/avfoundation/avassetdownloadurlsession">AVAssetDownloadURLSession</a>.</p>
+
+<p>To create an instance of AVAssetDownloadURLSession, you will need to provide an <a href="https://developer.apple.com/documentation/foundation/urlsessionconfiguration">URLSessionConfiguration</a>, <a href="https://developer.apple.com/documentation/avfoundation/avassetdownloaddelegate">AVAssetDownloadDelegate</a> and <a href="https://developer.apple.com/documentation/foundation/operationqueue">OperationQueue</a> as following:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">AVAssetDownloadURLSession</span><span class="p">(</span><span class="nv">configuration</span><span class="p">:</span> <span class="kt">URLSessionConfiguration</span><span class="p">,</span>
+                          <span class="nv">assetDownloadDelegate</span><span class="p">:</span> <span class="kt">AVAssetDownloadDelegate</span><span class="p">?,</span>
+                          <span class="nv">delegateQueue</span><span class="p">:</span> <span class="kt">OperationQueue</span><span class="p">?)</span>
+</code></pre></div></div>
+
+<p>Keep in mind that, even though <code class="highlighter-rouge">assetDownloadDelegate</code> is an optional parameter, you will need to pass a delegate to handle your HLS downloads properly.</p>
+
+<h2 id="urlsessionconfiguration">URLSessionConfiguration</h2>
+
+<p>An instance of <code class="highlighter-rouge">URLSessionConfiguration</code> is used to determine the behaviour of the URLSession. After creating the configuration you can tailor it to your needs. For example, you can use it to allow downloading over cellular or determine a network service type. Creating a typical configuration for AVAssetDownloadURLSession will look something like this:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">identifier</span> <span class="o">=</span> <span class="s">"hlsURLSessionIdentifier"</span>
+<span class="k">let</span> <span class="nv">configuration</span> <span class="o">=</span> <span class="kt">URLSessionConfiguration</span><span class="o">.</span><span class="nf">background</span><span class="p">(</span><span class="nv">withIdentifier</span><span class="p">:</span> <span class="n">identifier</span><span class="p">)</span>
+
+<span class="n">configuration</span><span class="o">.</span><span class="n">allowCellularAccess</span> <span class="o">=</span> <span class="kc">false</span>
+<span class="n">configuration</span><span class="o">.</span><span class="n">networkServiceType</span> <span class="o">=</span> <span class="o">.</span><span class="n">video</span>
+</code></pre></div></div>
+
+<p>The configuration <strong>must</strong> be setup as a background URLSessionConfiguration, or an exception will be raised.</p>
+
+<h2 id="key-characteristics-of-a-background-urlsession">Key characteristics of a background URLSession</h2>
+
+<p>An <code class="highlighter-rouge">URLSession</code> configured with a background <code class="highlighter-rouge">URLSessionConfiguration</code> is meant for long-running and nonurgent downloads, of which the device takes control of executing them and the device informs you through delegate callbacks.</p>
+
+<p>The biggest benefits of this setup are:</p>
+<ul>
+  <li>These downloads do not rely on your app being in the foreground, it can continue running when your app is suspended.</li>
+  <li>The device automatically checks for optimal conditions to execute the downloads. More on that <a href="/blog/cellular-and-discretionary-downloads">later</a>.</li>
+</ul>
+
+<p>For more in-depth information about downloading in the background using a background <code class="highlighter-rouge">URLSessionConfiguration</code>, I suggest checking out <a href="https://developer.apple.com/documentation/foundation/url_loading_system/downloading_files_in_the_background">Apple’s documentation</a> on this topic.</p>
+
+
+				<hr />
+				<div class="row justify-content-between bottom-links">
+					<div class="col-5">
+						
+						<a href="/blog/hlsdownloading-introduction">< Introduction: Downloading HTTP Live Streaming</a>
+						
+					</div>
+					<div class="col-5 align-self-end text-right">
+						
+						<a href="/blog/create-downloadtask">AVAssetDownloadTask and AVAggregateAssetDownloadTask ></a>
+						
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	<footer class="site-footer" id="contact">
+	<div class = "container">
+		<div class = "row justify-content-md-center">
+			<div class = "col-md-6">
+				<h2>Feel free to say hi!</h2>
+				<p>
+					Feel free to send me a message by clicking on the big button below. I'm always open to chatting about my projects or design, prototyping and 3D-printing in general.
+				</p>
+				<a href="mailto:frankvb@gmail.com" id="emailbutton">Mail me</a>
+			</div>
+		</div>
+		<div class = "row justify-content-md-center">
+			
+
+			<div class = "col-md-6">
+				<hr style="background-color:#FFF">
+				<div class = "row justify-content-center social-button-container">
+						<a href="https://github.com/frankvanboheemen" target="blank" title="GitHub">
+								<img class="social-button-image" src="/images/github.png" />
+						</a>
+
+						<a href="https://www.linkedin.com/in/frankvanboheemen/" target="blank" title="Linkedin">
+								<img class="social-button-image" src="/images/linkedin.png" />
+						</a>
+
+						<a href="https://www.thingiverse.com/frankvb/designs" target="blank" title="Thingiverse">
+								<img class="social-button-image" src="/images/thingiverse.png" />
+						</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+</body>
+<script>
+$(window).scroll(function() {
+	var scroll = $(window).scrollTop();
+	if (scroll >= 240) {
+		$(".navbar").addClass("shadow");
+	} else {
+		$(".navbar").removeClass("shadow");
+
+	}
+});
+</script>
+</html>

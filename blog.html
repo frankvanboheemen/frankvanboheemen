@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	<meta charset="utf-8">
+	<title>Frank van Boheemen</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+	<link href='https://fonts.googleapis.com/css?family=Raleway:400,100,200italic,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="/css/style.css" media="screen" />
+	<script type="text/javascript" src="/js/jquery.nav.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-dark navbar-expand-lg fixed-top">
+    <a href="/" class="navbar-brand d-flex w-50 mr-auto">
+      <img src="/images/logo.png"height="20" alt="">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-nav">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse" id="main-nav" >
+    </div>
+</nav>
+
+<section id="blogheader" class="pageheader">
+<h1>My blog</h1>
+<h2>On what i discover in the world of <strong>Swift</strong>, <strong>UX Design</strong> and <strong>3D printing</strong>.</h2>
+</section>
+
+<section class="blogpost-content">
+<div class="container col-md-6">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <article class="blogpost-entry">
+    <a href="/blog/hlsdownloading-introduction"><h2>Introduction: Downloading HTTP Live Streaming</h2></a>
+    <p>A mini series of bite-sized blogs post dedicated to downloading HTTP Live Streaming (HLS). In this series I will explain the tools we need to download HLS, as well as the 'dos and don'ts' when it comes to maintaining local HLS and starting playback of (partially) downloaded HLS.</p>
+    <a href="/blog/hlsdownloading-introduction">Start reading</a>
+  </article>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+		
+</div>
+</section>
+
+	<footer class="site-footer" id="contact">
+	<div class = "container">
+		<div class = "row justify-content-md-center">
+			<div class = "col-md-6">
+				<h2>Feel free to say hi!</h2>
+				<p>
+					Feel free to send me a message by clicking on the big button below. I'm always open to chatting about my projects or design, prototyping and 3D-printing in general.
+				</p>
+				<a href="mailto:frankvb@gmail.com" id="emailbutton">Mail me</a>
+			</div>
+		</div>
+		<div class = "row justify-content-md-center">
+			
+
+			<div class = "col-md-6">
+				<hr style="background-color:#FFF">
+				<div class = "row justify-content-center social-button-container">
+						<a href="https://github.com/frankvanboheemen" target="blank" title="GitHub">
+								<img class="social-button-image" src="/images/github.png" />
+						</a>
+
+						<a href="https://www.linkedin.com/in/frankvanboheemen/" target="blank" title="Linkedin">
+								<img class="social-button-image" src="/images/linkedin.png" />
+						</a>
+
+						<a href="https://www.thingiverse.com/frankvb/designs" target="blank" title="Thingiverse">
+								<img class="social-button-image" src="/images/thingiverse.png" />
+						</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+
+</body>
+
+<script> 
+	var ratio = 0.5;  // Used for aspect ratio
+
+	function Resizing() {
+		var totalWidth = 0;
+		var totalProjects = 0;
+		$('.single-project').each(function() {
+			totalWidth = totalWidth + $(this).width();
+			totalProjects = totalProjects + 1;
+		});
+
+		var meanWidth = totalWidth/ totalProjects;
+
+		$('.single-project').each(function() {
+			var width = meanWidth;
+
+			var preferredHeight = Math.floor(width * ratio)
+			$(this).css("height", preferredHeight +"px");   // Set new height
+		});
+	}
+
+	var $animation_elements = $('#bar-chart .bar-group .bar');
+	var $window = $(window);
+
+	function animate_barchart() {
+  		var window_height = $window.height();
+  		var window_top_position = $window.scrollTop();
+  		var window_bottom_position = (window_top_position + window_height);
+
+  		$.each($animation_elements, function() {
+    		var $element = $(this);
+    		var element_height = $element.outerHeight();
+    		var element_top_position = $element.offset().top;
+    		var element_bottom_position = (element_top_position + element_height);
+
+    //check to see if this current container is within viewport
+    		if ((element_bottom_position >= window_top_position) && (element_top_position <= window_bottom_position)) {
+      			$element.addClass('in-view');
+    		} else {
+      			$element.removeClass('in-view');
+    		}
+		});
+  	}
+
+	$( "a.project" ).hover(
+		function() {
+  			$(this).children("div.project-overlay").addClass("project-hightlighted");
+		}, function() {
+    		$(this).children("div.project-overlay").removeClass("project-hightlighted");
+		}
+	);
+
+	$(window).on("navigate", function (event, data) {
+		Resizing();
+	});
+
+	$(document).ready(function() {
+		Resizing();
+		$('#main-nav-ul').onePageNav();
+		$("a.project").each(function() {
+    		$(this).children("div.project-overlay").removeClass("project-hightlighted");
+		});
+	});
+
+	$(window).resize(function() {
+		Resizing();
+	});
+
+	$(window).scroll(function() {
+		animate_barchart();
+		var scroll = $(window).scrollTop();
+		if (scroll >= 10) {
+			$(".navbar").addClass("shadow");
+		} else {
+			$(".navbar").removeClass("shadow");
+
+		}
+	});
+</script>
+</html>

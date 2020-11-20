@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>AVAssetDownloadTask and AVAggregateAssetDownloadTask</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+	<link href='https://fonts.googleapis.com/css?family=Raleway:400,100,200italic,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="/css/style.css" media="screen" />
+	<script type="text/javascript" src="/js/jquery.nav.js"></script>
+</head>
+<link rel="stylesheet" type="text/css" href="/css/syntax.css" media="screen" />
+<body>
+	<nav class="navbar navbar-dark navbar-expand-lg fixed-top">
+		<a href="/" class="navbar-brand d-flex w-50 mr-auto">
+		  <img src="/images/logo.png"height="20" alt="">
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-nav">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="navbar-collapse collapse" id="main-nav" >
+			<ul class="nav navbar-nav ml-auto w-100 justify-content-end">
+				<li class="nav-item">
+					<a href="/blog" class="nav-link">Blog</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+		
+	<section id="blogheader" class="pageheader">
+		<h1 style="font-size: 3em;">AVAssetDownloadTask and AVAggregateAssetDownloadTask</h1>
+		
+		<div class="container">
+			<div class="row justify-content-md-center">
+					<p class="keyword">Swift</p><p class="keyword">iOS</p><p class="keyword">Downloading HLS</p>
+			</div>
+		</div>
+		
+		</section>
+		<section class="blogpost-content">
+			<div class="container col-lg-6">
+			<h2 id="two-types-of-download-tasks">Two types of download tasks</h2>
+
+<p>To download HLS streams you will need to create a <code class="highlighter-rouge">URLSessionTask</code>, specificly designed for this task. AVAssetDownloadURLSession offers two types:</p>
+
+<ul>
+  <li><a href="https://developer.apple.com/documentation/avfoundation/avassetdownloadtask">AVAssetDownloadTask</a></li>
+  <li><a href="https://developer.apple.com/documentation/avfoundation/avaggregateassetdownloadtask">AVAggregateAssetDownloadTask</a>.</li>
+</ul>
+
+<p>In essence, the difference is between the two comes down to AVAssetDownloadTask only allowing you to download the HLS stream with a single media selections per type (such as audio tracks and subtitles), where AVAggregateAssetDownloadTask allows you to include multiple media selections.</p>
+
+<h2 id="creating-an-avassetdownloadtask-or-avaggregateassetdownloadtask">Creating an AVAssetDownloadTask or AVAggregateAssetDownloadTask</h2>
+
+<p>The two types of download tasks are created as following:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// AVAssetDownloadTask</span>
+<span class="kd">func</span> <span class="nf">makeAssetDownloadTask</span><span class="p">(</span><span class="nv">asset</span><span class="p">:</span> <span class="kt">AVURLAsset</span><span class="p">,</span>
+                           <span class="nv">assetTitle</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                           <span class="nv">assetArtworkData</span><span class="p">:</span> <span class="kt">Data</span><span class="p">?,</span>
+                           <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="kt">AVAssetDownloadTask</span><span class="p">?</span>
+
+<span class="c1">/// AVAggregateAssetDownloadTask</span>
+<span class="kd">func</span> <span class="nf">aggregateAssetDownloadTask</span><span class="p">(</span><span class="n">with</span> <span class="kt">URLAsset</span><span class="p">:</span> <span class="kt">AVURLAsset</span><span class="p">,</span>
+                                <span class="nv">mediaSelections</span><span class="p">:</span> <span class="p">[</span><span class="kt">AVMediaSelection</span><span class="p">],</span>
+                                <span class="n">assetTitle</span> <span class="nv">title</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                                <span class="n">assetArtworkData</span> <span class="nv">artworkData</span><span class="p">:</span> <span class="kt">Data</span><span class="p">?,</span>
+                                <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AVAggregateAssetDownloadTask</span><span class="p">?</span>
+</code></pre></div></div>
+
+<p>Both download tasks require at least an <code class="highlighter-rouge">AVURLAsset</code> and an human-readable title. When creating an <code class="highlighter-rouge">AVAggregateAssetDownloadTask</code> you will also need to at least pass one <code class="highlighter-rouge">AVMediaSelection</code>.</p>
+
+<p>Optionally, an image can be passed as <code class="highlighter-rouge">Data</code>, which I highly recommend. Both the title and the assetArtworkData are there to help your users recognize the downloaded HLS streams. The Settings application shows downloaded videos in its storage section and uses the title and the assetArtworkData.</p>
+
+<h2 id="adding-options">Adding options</h2>
+
+<p>Both types of download tasks allow you to add options as <code class="highlighter-rouge">[String : Any]</code>. Possible options are:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">AVAssetDownloadTask</span> <span class="p">{</span>
+	<span class="kd">public</span> <span class="k">let</span> <span class="nv">AVAssetDownloadTaskMinimumRequiredMediaBitrateKey</span><span class="p">:</span> <span class="kt">String</span>
+
+	<span class="c1">// Starting in iOS 14</span>
+	<span class="kd">public</span> <span class="k">let</span> <span class="nv">AVAssetDownloadTaskMinimRequiredPresentationSizeKey</span><span class="p">:</span> <span class="kt">String</span>
+	<span class="kd">public</span> <span class="k">let</span> <span class="nv">AvAssetDownloadTaskPrefersHDRKey</span><span class="p">:</span> <span class="kt">String</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="including-media-selections-to-avassetdownloadtask">Including media selections to AVAssetDownloadTask</h2>
+
+<p>HLS streams can contain multiple playback tracks, to support, for example, alternative audible tracks and subtitle tracks. When downloading an HLS stream using <code class="highlighter-rouge">AVAssetDownloadTask</code>, only the default playback tracks will be included. To include an alternative track, it supports an additional option:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">AVAssetDownloadTaskMediaSelectionKey</span><span class="p">:</span> <span class="kt">String</span>
+</code></pre></div></div>
+
+<p>The biggest downside of this is that you can only add <em>one</em> alternative media selection to an <code class="highlighter-rouge">AVAssetDownloadTask</code>. To download multiple playback tracks using <code class="highlighter-rouge">AVAssetDownloadTask</code> you will need to run multiple consecutive download tasks.</p>
+
+<h2 id="including-media-selections-to-avaggregateassetdownloadtask">Including media selections to AVAggregateAssetDownloadTask</h2>
+
+<p><code class="highlighter-rouge">AVAggregateAssetDownloadTask</code> does support downloading multiple media selections by passing <code class="highlighter-rouge">[AVMediaSelection]</code>. <code class="highlighter-rouge">AVURLAsset</code> offers two convenient selections which you can directly pass as a parameter when creating an <code class="highlighter-rouge">AVAggregateAssetDownloadTask</code>. These are:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// The media selection preferred by the stream</span>
+<span class="k">let</span> <span class="nv">preferredMediaSelections</span><span class="p">:</span> <span class="kt">AVMediaSelection</span> <span class="o">=</span> <span class="n">asset</span><span class="o">.</span><span class="n">preferredMediaSelection</span>
+<span class="c1">// All available media selections</span>
+<span class="k">let</span> <span class="nv">allMediaSelections</span><span class="p">:</span> <span class="p">[</span><span class="kt">AVMediaSelection</span><span class="p">]</span> <span class="o">=</span> <span class="n">asset</span><span class="o">.</span><span class="n">allMediaSelections</span>
+</code></pre></div></div>
+
+
+				<hr />
+				<div class="row justify-content-between bottom-links">
+					<div class="col-5">
+						
+						<a href="/blog/configure-avassetdownloadurlsession">< AVAssetDownloadURLSession for HLS downloads</a>
+						
+					</div>
+					<div class="col-5 align-self-end text-right">
+						
+						<a href="/blog/AVAssetDownloadDelegate">AVAssetDownloadDelegate ></a>
+						
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	<footer class="site-footer" id="contact">
+	<div class = "container">
+		<div class = "row justify-content-md-center">
+			<div class = "col-md-6">
+				<h2>Feel free to say hi!</h2>
+				<p>
+					Feel free to send me a message by clicking on the big button below. I'm always open to chatting about my projects or design, prototyping and 3D-printing in general.
+				</p>
+				<a href="mailto:frankvb@gmail.com" id="emailbutton">Mail me</a>
+			</div>
+		</div>
+		<div class = "row justify-content-md-center">
+			
+
+			<div class = "col-md-6">
+				<hr style="background-color:#FFF">
+				<div class = "row justify-content-center social-button-container">
+						<a href="https://github.com/frankvanboheemen" target="blank" title="GitHub">
+								<img class="social-button-image" src="/images/github.png" />
+						</a>
+
+						<a href="https://www.linkedin.com/in/frankvanboheemen/" target="blank" title="Linkedin">
+								<img class="social-button-image" src="/images/linkedin.png" />
+						</a>
+
+						<a href="https://www.thingiverse.com/frankvb/designs" target="blank" title="Thingiverse">
+								<img class="social-button-image" src="/images/thingiverse.png" />
+						</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+</body>
+<script>
+$(window).scroll(function() {
+	var scroll = $(window).scrollTop();
+	if (scroll >= 240) {
+		$(".navbar").addClass("shadow");
+	} else {
+		$(".navbar").removeClass("shadow");
+
+	}
+});
+</script>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Reconfiguring AVAssetDownloadURLSession</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+	<link href='https://fonts.googleapis.com/css?family=Raleway:400,100,200italic,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="/css/style.css" media="screen" />
+	<script type="text/javascript" src="/js/jquery.nav.js"></script>
+</head>
+<link rel="stylesheet" type="text/css" href="/css/syntax.css" media="screen" />
+<body>
+	<nav class="navbar navbar-dark navbar-expand-lg fixed-top">
+		<a href="/" class="navbar-brand d-flex w-50 mr-auto">
+		  <img src="/images/logo.png"height="20" alt="">
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-nav">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="navbar-collapse collapse" id="main-nav" >
+			<ul class="nav navbar-nav ml-auto w-100 justify-content-end">
+				<li class="nav-item">
+					<a href="/blog" class="nav-link">Blog</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+		
+	<section id="blogheader" class="pageheader">
+		<h1 style="font-size: 3em;">Reconfiguring AVAssetDownloadURLSession</h1>
+		
+		<div class="container">
+			<div class="row justify-content-md-center">
+					<p class="keyword">Swift</p><p class="keyword">iOS</p><p class="keyword">Downloading HLS</p>
+			</div>
+		</div>
+		
+		</section>
+		<section class="blogpost-content">
+			<div class="container col-lg-6">
+			<p>Once an instance of <code class="highlighter-rouge">AVAssetDownloadURLSession</code> is created, It is not possible to directly change properties including the underlying <code class="highlighter-rouge">URLSessionConfiguration</code> with which the session is created. However, we can create a new session and move our download tasks to that new session. This is done in four steps:</p>
+
+<ol>
+  <li>Keep track of which download tasks need to be recreated.</li>
+  <li>Remove any strong reference to the current session.</li>
+  <li>Invalidate the session.</li>
+  <li>Create a new <code class="highlighter-rouge">AVAssetDownloadURLSession</code> with an updated <code class="highlighter-rouge">URLSessionConfiguration</code></li>
+</ol>
+
+<h2 id="keep-track-of-the-download-tasks-we-want-to-restore">Keep track of the download tasks we want to restore</h2>
+
+<p>When we reconfigure our <code class="highlighter-rouge">AVAssetDownloadURLSession</code> we want to recreate the downloads tasks which state is currently <code class="highlighter-rouge">.running</code> or <code class="highlighter-rouge">.suspended</code>. To do this we need to keep track of which these download tasks, because on invalidating the session the state of each download task will change to <code class="highlighter-rouge">.completed</code>. There are two ways to do that:</p>
+
+<ol>
+  <li><strong>Before invalidating the session</strong> we check the state of all the download tasks and keep a reference to the ones we want to recreate later.</li>
+  <li><strong>After invalidating the session</strong> we will receive a callback on <code class="highlighter-rouge">func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?)</code> for each.</li>
+</ol>
+
+<p>Allthough both ways are equally valid, I prefer <strong>option 1</strong>, because this gives us a bit more control and does not require adding logic to an already complex implementation of <code class="highlighter-rouge">func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?)</code>. So I will explain the steps necessary for this option.</p>
+
+<p>Lets say we track our download tasks by keeping an array of <code class="highlighter-rouge">Download</code>, where <code class="highlighter-rouge">Download</code> is:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">Download</span> <span class="p">{</span>
+    <span class="c1">/// Human-readable title to identify the download</span>
+    <span class="k">let</span> <span class="nv">title</span><span class="p">:</span> <span class="kt">String</span>
+    <span class="c1">/// Remote url of the HLS</span>
+    <span class="k">let</span> <span class="nv">url</span><span class="p">:</span> <span class="kt">URL</span>
+    <span class="c1">/// Location the HLS is downloaded to</span>
+    <span class="k">let</span> <span class="nv">localURL</span><span class="p">:</span> <span class="kt">URL</span><span class="p">?</span>
+    <span class="c1">/// Weak reference to the download task</span>
+    <span class="k">weak</span> <span class="k">var</span> <span class="nv">downloadTask</span><span class="p">:</span> <span class="kt">AVAggregateAssetDownloadTask</span><span class="p">?</span>
+    <span class="c1">/// State of the download derived from the underlying download task.</span>
+    <span class="k">var</span> <span class="nv">state</span><span class="p">:</span> <span class="kt">URLSessionTask</span><span class="o">.</span><span class="kt">State</span> <span class="p">{</span> <span class="n">downloadTask</span><span class="o">.</span><span class="n">state</span> <span class="p">??</span> <span class="o">.</span><span class="n">completed</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>We iterate through our downloads and store the ones we want to restore in a dedicated array:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">downloadsToRestore</span><span class="p">:</span> <span class="p">[</span><span class="kt">Download</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">download</span> <span class="k">in</span> <span class="n">currentDownloads</span> <span class="p">{</span>
+    <span class="k">switch</span> <span class="n">download</span><span class="o">.</span><span class="n">state</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="o">.</span><span class="n">running</span><span class="p">,</span> <span class="o">.</span><span class="nv">suspended</span><span class="p">:</span>
+        <span class="n">downloadsToRestore</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">download</span><span class="p">)</span>
+    <span class="k">default</span><span class="p">:</span>
+    <span class="k">continue</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="invalidating-the-avassetdownloadurlsession">Invalidating the AVAssetDownloadURLSession</h2>
+
+<p>To invalidate our current session, <code class="highlighter-rouge">AVAssetDownloadURLSession</code> offers two methods to invalidate the session: <code class="highlighter-rouge">func finishTasksAndInvalidate()</code> and <code class="highlighter-rouge">func invalidateAndCancel()</code>. We are interested in <code class="highlighter-rouge">func invalidateAndCancel()</code>. But first, we need to remove any reference to our current session. So, our method will look something like:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">/// Reference to the current download session</span>
+<span class="k">var</span> <span class="nv">downloadSession</span><span class="p">:</span> <span class="kt">AVAssetDownloadURLSession</span><span class="p">?</span>
+
+<span class="kd">func</span> <span class="nf">invalidateDownloadSession</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">/// Set up temporary reference</span>
+    <span class="k">let</span> <span class="nv">session</span> <span class="o">=</span> <span class="n">downloadSession</span>
+
+    <span class="c1">/// Remove reference to the download session from our class</span>
+    <span class="n">downloadSession</span> <span class="o">=</span> <span class="kc">nil</span>
+
+    <span class="c1">// Invalidate the current session.</span>
+    <span class="n">session</span><span class="p">?</span><span class="o">.</span><span class="nf">invalidateAndCancel</span><span class="p">()</span>
+<span class="p">}</span>
+
+
+</code></pre></div></div>
+
+<p>As mentioned earlier, upon calling invalidating our session  will fail all current download tasks. Once the session is invalidated, you will get a callback on:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">urlSession</span><span class="p">(</span><span class="n">_</span> <span class="nv">session</span><span class="p">:</span> <span class="kt">URLSession</span><span class="p">,</span> <span class="n">didBecomeInvalidWithError</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">Error</span><span class="p">?)</span>
+</code></pre></div></div>
+
+<h2 id="creating-a-new-avassetdownloadurlsession">Creating a new AVAssetDownloadURLSession</h2>
+
+<p>We are now ready to create a new <code class="highlighter-rouge">AVAssetDownloadURLSession</code>, in exactly the same way we have created our initial session:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// We can reuse our initial identifier</span>
+<span class="k">let</span> <span class="nv">identifier</span> <span class="o">=</span> <span class="s">"hlsURLSessionIdentifier"</span>
+
+<span class="c1">// Create a new `URLSessionConfiguration`</span>
+<span class="k">let</span> <span class="nv">updatedConfiguration</span> <span class="o">=</span> <span class="kt">URLSessionConfiguration</span><span class="o">.</span><span class="nf">background</span><span class="p">(</span><span class="nv">withIdentifier</span><span class="p">:</span> <span class="n">identifier</span><span class="p">)</span>
+
+<span class="c1">// Adjust our `URLSessionConfiguration`</span>
+<span class="n">configuration</span><span class="o">.</span><span class="n">allowCellularAccess</span> <span class="o">=</span> <span class="kc">true</span> <span class="c1">// We now allow downloading over cellular.</span>
+<span class="n">configuration</span><span class="o">.</span><span class="n">isDiscretionary</span> <span class="o">=</span> <span class="kc">true</span> <span class="c1">// We now do want the device to check for optimal battery conditions.</span>
+<span class="n">configuration</span><span class="o">.</span><span class="n">networkServiceType</span> <span class="o">=</span> <span class="o">.</span><span class="n">video</span>
+
+<span class="c1">// Create a the `AVAssetDownloadURLSession`</span>
+<span class="n">downloadSession</span> <span class="o">=</span> <span class="kt">AVAssetDownloadURLSession</span><span class="p">(</span><span class="nv">configuration</span><span class="p">:</span> <span class="n">updatedConfiguration</span><span class="p">,</span>
+                                            <span class="nv">assetDownloadDelegate</span><span class="p">:</span> <span class="k">self</span><span class="p">,</span>
+                                            <span class="nv">delegateQueue</span><span class="p">:</span> <span class="o">.</span><span class="n">main</span><span class="p">)</span>
+
+<span class="c1">// Restore our pending download tasks</span>
+<span class="k">for</span> <span class="n">download</span> <span class="k">in</span> <span class="n">downloadsToRestore</span> <span class="p">{</span>
+    <span class="nf">startDownload</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="n">download</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+
+				<hr />
+				<div class="row justify-content-between bottom-links">
+					<div class="col-5">
+						
+						<a href="/blog/cellular-and-discretionary-downloads">< Cellular access and discretionary downloads</a>
+						
+					</div>
+					<div class="col-5 align-self-end text-right">
+						
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	<footer class="site-footer" id="contact">
+	<div class = "container">
+		<div class = "row justify-content-md-center">
+			<div class = "col-md-6">
+				<h2>Feel free to say hi!</h2>
+				<p>
+					Feel free to send me a message by clicking on the big button below. I'm always open to chatting about my projects or design, prototyping and 3D-printing in general.
+				</p>
+				<a href="mailto:frankvb@gmail.com" id="emailbutton">Mail me</a>
+			</div>
+		</div>
+		<div class = "row justify-content-md-center">
+			
+
+			<div class = "col-md-6">
+				<hr style="background-color:#FFF">
+				<div class = "row justify-content-center social-button-container">
+						<a href="https://github.com/frankvanboheemen" target="blank" title="GitHub">
+								<img class="social-button-image" src="/images/github.png" />
+						</a>
+
+						<a href="https://www.linkedin.com/in/frankvanboheemen/" target="blank" title="Linkedin">
+								<img class="social-button-image" src="/images/linkedin.png" />
+						</a>
+
+						<a href="https://www.thingiverse.com/frankvb/designs" target="blank" title="Thingiverse">
+								<img class="social-button-image" src="/images/thingiverse.png" />
+						</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+</body>
+<script>
+$(window).scroll(function() {
+	var scroll = $(window).scrollTop();
+	if (scroll >= 240) {
+		$(".navbar").addClass("shadow");
+	} else {
+		$(".navbar").removeClass("shadow");
+
+	}
+});
+</script>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Introduction: Downloading HTTP Live Streaming</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+	<link href='https://fonts.googleapis.com/css?family=Raleway:400,100,200italic,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="/css/style.css" media="screen" />
+	<script type="text/javascript" src="/js/jquery.nav.js"></script>
+</head>
+<link rel="stylesheet" type="text/css" href="/css/syntax.css" media="screen" />
+<body>
+	<nav class="navbar navbar-dark navbar-expand-lg fixed-top">
+		<a href="/" class="navbar-brand d-flex w-50 mr-auto">
+		  <img src="/images/logo.png"height="20" alt="">
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-nav">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="navbar-collapse collapse" id="main-nav" >
+			<ul class="nav navbar-nav ml-auto w-100 justify-content-end">
+				<li class="nav-item">
+					<a href="/blog" class="nav-link">Blog</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+		
+	<section id="blogheader" class="pageheader">
+		<h1 style="font-size: 3em;">Introduction: Downloading HTTP Live Streaming</h1>
+		
+		<div class="container">
+			<div class="row justify-content-md-center">
+					<p class="keyword">Swift</p><p class="keyword">iOS</p><p class="keyword">Downloading HLS</p>
+			</div>
+		</div>
+		
+		</section>
+		<section class="blogpost-content">
+			<div class="container col-lg-6">
+			<h2 id="what-is-http-live-streaming">What is HTTP Live Streaming?</h2>
+
+<p>In short, HTTP Live Streaming (HLS) is a standardised protocol for delivering visual and audio media over the internet in smaller chunks. It supports the following:</p>
+
+<ul>
+  <li>Live broadcasts and prerecorded content (video on demand, or VOD)</li>
+  <li>Multiple alternate streams at different bit rates</li>
+  <li>Intelligent switching of streams in response to network bandwidth changes</li>
+  <li>Media encryption and user authentication</li>
+</ul>
+
+<h2 id="starting-playback-of-hls">Starting playback of HLS</h2>
+
+<p>To play an HLS stream, a HTTP server needs to provide an M3U8 playlist file. This is a manifest file that serves as an index for the video chunks. Playing an HLS stream is rather simple. It works exactly the same as playing ordinary video files:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">path</span> <span class="o">=</span> <span class="s">"https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8"</span>
+<span class="k">guard</span> <span class="k">let</span> <span class="nv">url</span> <span class="o">=</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="n">path</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+
+<span class="k">let</span> <span class="nv">playerItem</span> <span class="o">=</span> <span class="kt">AVPlayerItem</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="n">url</span><span class="p">)</span>
+<span class="kt">AVPlayer</span><span class="p">(</span><span class="nv">playerItem</span><span class="p">:</span> <span class="n">playerItem</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="downloading-hls">Downloading HLS</h2>
+
+<p>Downloading an HLS stream is not as straight forward as downloading ordinary video files. We can not simply download the file at that url. This url points to an HLS manifest containing paths to all the video chunks of the stream, possibly also including alternate streams of varying bit rates and localisation options.</p>
+
+<p>Additionally, iOS <strong>requires</strong> HLS to be downloaded and stored on the device in a very specific way. One of the main reasons being that the user can check which videos have been downloaded and optionally delete thesse videos from the Settings application.</p>
+
+<p>Luckily <code class="highlighter-rouge">AVFoundation</code> offers all the tools needed to download and retain HLS streams correctly. In short, we’ll need to:</p>
+
+<ul>
+  <li><a href="/blog/configure-avassetdownloadurlsession">Configure AVAssetDownloadURLSession for HLS downloads</a></li>
+  <li><a href="/blog/create-downloadtask">Create an AVAssetDownloadTask and AVAggregateAssetDownloadTask</a></li>
+  <li><a href="/blog/AVAssetDownloadDelegate">Handle download related events using AVAssetDownloadDelegate</a></li>
+  <li><a href="/blog/cellular-and-discretionary-downloads">Configure handling cellular access and discretionary downloading</a></li>
+  <li>Optionally <a href="/blog/recreating-avassetdownloadurlsession">recreate our AVAssetDownloadURLSession to update the configuration</a></li>
+  <li>And start playback of an HLS while downloading</li>
+</ul>
+
+<p>This blogpost is part of a mini series of bite-sized blogs post dedicated to downloading HLS. In this series I will go over each step necessary to downloading HLS streams and handling downloaded HLS streams.</p>
+
+
+				<hr />
+				<div class="row justify-content-between bottom-links">
+					<div class="col-5">
+						
+					</div>
+					<div class="col-5 align-self-end text-right">
+						
+						<a href="/blog/configure-avassetdownloadurlsession">AVAssetDownloadURLSession for HLS downloads ></a>
+						
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	<footer class="site-footer" id="contact">
+	<div class = "container">
+		<div class = "row justify-content-md-center">
+			<div class = "col-md-6">
+				<h2>Feel free to say hi!</h2>
+				<p>
+					Feel free to send me a message by clicking on the big button below. I'm always open to chatting about my projects or design, prototyping and 3D-printing in general.
+				</p>
+				<a href="mailto:frankvb@gmail.com" id="emailbutton">Mail me</a>
+			</div>
+		</div>
+		<div class = "row justify-content-md-center">
+			
+
+			<div class = "col-md-6">
+				<hr style="background-color:#FFF">
+				<div class = "row justify-content-center social-button-container">
+						<a href="https://github.com/frankvanboheemen" target="blank" title="GitHub">
+								<img class="social-button-image" src="/images/github.png" />
+						</a>
+
+						<a href="https://www.linkedin.com/in/frankvanboheemen/" target="blank" title="Linkedin">
+								<img class="social-button-image" src="/images/linkedin.png" />
+						</a>
+
+						<a href="https://www.thingiverse.com/frankvb/designs" target="blank" title="Thingiverse">
+								<img class="social-button-image" src="/images/thingiverse.png" />
+						</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+</body>
+<script>
+$(window).scroll(function() {
+	var scroll = $(window).scrollTop();
+	if (scroll >= 240) {
+		$(".navbar").addClass("shadow");
+	} else {
+		$(".navbar").removeClass("shadow");
+
+	}
+});
+</script>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Cellular access and discretionary downloads</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+	<link href='https://fonts.googleapis.com/css?family=Raleway:400,100,200italic,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="/css/style.css" media="screen" />
+	<script type="text/javascript" src="/js/jquery.nav.js"></script>
+</head>
+<link rel="stylesheet" type="text/css" href="/css/syntax.css" media="screen" />
+<body>
+	<nav class="navbar navbar-dark navbar-expand-lg fixed-top">
+		<a href="/" class="navbar-brand d-flex w-50 mr-auto">
+		  <img src="/images/logo.png"height="20" alt="">
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-nav">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="navbar-collapse collapse" id="main-nav" >
+			<ul class="nav navbar-nav ml-auto w-100 justify-content-end">
+				<li class="nav-item">
+					<a href="/blog" class="nav-link">Blog</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+		
+	<section id="blogheader" class="pageheader">
+		<h1 style="font-size: 3em;">Cellular access and discretionary downloads</h1>
+		
+		<div class="container">
+			<div class="row justify-content-md-center">
+					<p class="keyword">Swift</p><p class="keyword">iOS</p><p class="keyword">Downloading HLS</p>
+			</div>
+		</div>
+		
+		</section>
+		<section class="blogpost-content">
+			<div class="container col-lg-6">
+			<h2 id="urlsessionconfiguration-allowcellularaccess-and-isdiscretionary">URLSessionConfiguration, allowCellularAccess and isDiscretionary</h2>
+<p>In an earlier blogpost I already briefly covered how to configure an <code class="highlighter-rouge">AVAssetDownloadURLSession</code> and that we can use that to allow/ restrict downloading over cellular. To recap, we do that by instantiating it with <code class="highlighter-rouge">URLSessionConfiguration</code> as following:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">configuration</span> <span class="o">=</span> <span class="kt">URLSessionConfiguration</span><span class="o">.</span><span class="nf">background</span><span class="p">(</span><span class="n">withIdentifier</span> <span class="nv">identifier</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span>
+<span class="n">configuration</span><span class="o">.</span><span class="n">allowCellularAccess</span> <span class="o">=</span> <span class="kc">false</span>
+<span class="n">configuration</span><span class="o">.</span><span class="n">isDiscretionary</span> <span class="o">=</span> <span class="kc">false</span>
+<span class="n">configuration</span><span class="o">.</span><span class="n">networkServiceType</span> <span class="o">=</span> <span class="o">.</span><span class="n">video</span>
+</code></pre></div></div>
+
+<p>You will notice that by configuring <code class="highlighter-rouge">allowCellularAccess = false</code> download tasks will not start when the device is not connected to Wi-Fi. Which is great! However this will not automatically stop download tasks which started on Wi-Fi after losing that connection.</p>
+
+<p>Luckily there is a solution for that. <code class="highlighter-rouge">URLSessionConfiguration</code> has another property called <a href="https://developer.apple.com/documentation/foundation/urlsessionconfiguration/1411552-isdiscretionary">isDiscretionary</a>. According to the documentation <code class="highlighter-rouge">isDiscretionary</code> is:</p>
+
+<blockquote>
+  <p>A Boolean value that determines whether background tasks can be scheduled at the discretion of the system for optimal performance.</p>
+</blockquote>
+
+<p>When set to <code class="highlighter-rouge">true</code> the URLSession will take the value we have set for <code class="highlighter-rouge">allowCellularAccess</code> into consideration to automatically pause and continue active download tasks.</p>
+
+<p>However, there are two important facts considering <code class="highlighter-rouge">isDiscretionary</code>:</p>
+
+<ul>
+  <li>When set to <code class="highlighter-rouge">true</code> it not only takes our value for <code class="highlighter-rouge">allowCellularAccess</code> into consideration, it also checks the battery-level and wether the device is connected to a charger among other things. Sadly, the documentation is not clear about all the parameters, nor is there a way to influence these.</li>
+  <li>The state of download tasks will not change when paused due to <code class="highlighter-rouge">isDiscretionary</code>, which might be slightly confusing.</li>
+</ul>
+
+<p>These drawbacks might be too big for our app to rely on it to pause downloads accordingly. There are ways to do this otherwise, for example by monitoring the connection. Keep in mind that <code class="highlighter-rouge">AVAssetDownloadURLSession</code> is configured as a background session, which will continue downloading when our app is in the background or even suspended. To pause/ resume download tasks with we will have to rely on <code class="highlighter-rouge">isDiscretionary</code>.</p>
+
+
+				<hr />
+				<div class="row justify-content-between bottom-links">
+					<div class="col-5">
+						
+						<a href="/blog/AVAssetDownloadDelegate">< AVAssetDownloadDelegate</a>
+						
+					</div>
+					<div class="col-5 align-self-end text-right">
+						
+						<a href="/blog/recreating-avassetdownloadurlsession">Reconfiguring AVAssetDownloadURLSession ></a>
+						
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	<footer class="site-footer" id="contact">
+	<div class = "container">
+		<div class = "row justify-content-md-center">
+			<div class = "col-md-6">
+				<h2>Feel free to say hi!</h2>
+				<p>
+					Feel free to send me a message by clicking on the big button below. I'm always open to chatting about my projects or design, prototyping and 3D-printing in general.
+				</p>
+				<a href="mailto:frankvb@gmail.com" id="emailbutton">Mail me</a>
+			</div>
+		</div>
+		<div class = "row justify-content-md-center">
+			
+
+			<div class = "col-md-6">
+				<hr style="background-color:#FFF">
+				<div class = "row justify-content-center social-button-container">
+						<a href="https://github.com/frankvanboheemen" target="blank" title="GitHub">
+								<img class="social-button-image" src="/images/github.png" />
+						</a>
+
+						<a href="https://www.linkedin.com/in/frankvanboheemen/" target="blank" title="Linkedin">
+								<img class="social-button-image" src="/images/linkedin.png" />
+						</a>
+
+						<a href="https://www.thingiverse.com/frankvb/designs" target="blank" title="Thingiverse">
+								<img class="social-button-image" src="/images/thingiverse.png" />
+						</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+</body>
+<script>
+$(window).scroll(function() {
+	var scroll = $(window).scrollTop();
+	if (scroll >= 240) {
+		$(".navbar").addClass("shadow");
+	} else {
+		$(".navbar").removeClass("shadow");
+
+	}
+});
+</script>
+</html>
